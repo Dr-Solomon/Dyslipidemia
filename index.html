@@ -1,0 +1,2184 @@
+By Solomon MD, MPH/RH
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>2026 ACC/AHA Dyslipidemia & Early Atherosclerosis 3D Clinical Suite</title>
+  <style>
+    :root {
+      --bg-base: #060b16;
+      --bg-panel: rgba(13, 22, 40, 0.88);
+      --bg-subcard: rgba(9, 16, 30, 0.92);
+      --border-subtle: rgba(148, 163, 184, 0.16);
+      --border-glow: rgba(34, 211, 238, 0.42);
+      --text-primary: #f1f5f9;
+      --text-secondary: #94a3b8;
+      --text-muted: #64748b;
+      --accent-cyan: #22d3ee;
+      --accent-emerald: #10b981;
+      --accent-amber: #f59e0b;
+      --accent-rose: #f43f5e;
+      --accent-indigo: #818cf8;
+      --accent-purple: #c084fc;
+      --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Inter, Helvetica, Arial, sans-serif;
+      --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: radial-gradient(circle at 18% 0%, #0f1f3d 0%, #060b16 55%, #04070f 100%);
+      color: var(--text-primary);
+      font-family: var(--font-sans);
+      min-height: 100vh;
+      line-height: 1.45;
+      overflow-x: hidden;
+    }
+
+    /* Layout & Glassmorphism */
+    .app-shell { display: flex; flex-direction: column; min-height: 100vh; }
+    .topbar {
+      position: sticky; top: 0; z-index: 40;
+      background: rgba(8, 14, 27, 0.94);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border-subtle);
+      padding: 12px 20px;
+    }
+    .container { max-width: 1720px; width: 100%; margin: 0 auto; }
+    .topbar-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; }
+    .brand { display: flex; align-items: center; gap: 12px; }
+    .brand-icon {
+      width: 42px; height: 42px; border-radius: 12px;
+      background: linear-gradient(135deg, #22d3ee, #2563eb);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px; box-shadow: 0 4px 18px rgba(34, 211, 238, 0.25);
+      flex-shrink: 0;
+    }
+    .badge-row { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 3px; }
+    .pill-tag {
+      font-family: var(--font-mono); font-size: 10px; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 0.04em;
+      padding: 2px 8px; border-radius: 999px;
+    }
+    .pill-emerald { background: rgba(16, 185, 129, 0.16); color: #6ee7b7; border: 1px solid rgba(16, 185, 129, 0.38); }
+    .pill-cyan { background: rgba(34, 211, 238, 0.15); color: #67e8f9; border: 1px solid rgba(34, 211, 238, 0.35); }
+    .pill-amber { background: rgba(245, 158, 11, 0.16); color: #fcd34d; border: 1px solid rgba(245, 158, 11, 0.38); }
+    .pill-rose { background: rgba(244, 63, 94, 0.18); color: #fda4af; border: 1px solid rgba(244, 63, 94, 0.42); }
+    .pill-purple { background: rgba(192, 132, 252, 0.16); color: #e9d5ff; border: 1px solid rgba(192, 132, 252, 0.38); }
+
+    h1 { font-size: 17px; font-weight: 700; color: #fff; letter-spacing: -0.01em; }
+    .toolbar-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+
+    /* Buttons */
+    button {
+      font-family: inherit; cursor: pointer; border: none; outline: none;
+      transition: all 0.15s ease;
+    }
+    .btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 7px 12px; border-radius: 10px;
+      font-size: 12px; font-weight: 600;
+      background: #131e36; color: #e2e8f0;
+      border: 1px solid rgba(148, 163, 184, 0.22);
+    }
+    .btn:hover { background: #1b2a4a; border-color: rgba(148, 163, 184, 0.45); transform: translateY(-1px); }
+    .btn-cyan { background: rgba(34, 211, 238, 0.15); color: #a5f3fc; border-color: rgba(34, 211, 238, 0.42); }
+    .btn-cyan:hover { background: rgba(34, 211, 238, 0.26); }
+    .btn-indigo-active { background: #6366f1; color: #fff; border-color: #a5b4fc; box-shadow: 0 0 18px rgba(99, 102, 241, 0.45); }
+    .btn-rose { background: rgba(244, 63, 94, 0.15); color: #fecdd3; border-color: rgba(244, 63, 94, 0.4); }
+    .btn-rose:hover { background: rgba(244, 63, 94, 0.26); }
+    .btn-primary {
+      background: linear-gradient(135deg, #10b981, #06b6d4);
+      color: #04101d; font-weight: 700; border: none;
+      box-shadow: 0 4px 16px rgba(16, 185, 129, 0.25);
+    }
+    .btn-primary:hover { filter: brightness(1.08); transform: translateY(-1px); }
+    .btn-sm { padding: 4px 9px; font-size: 11px; border-radius: 8px; }
+
+    /* Preset Bar */
+    .preset-bar {
+      display: flex; align-items: center; gap: 8px; overflow-x: auto;
+      padding-top: 10px; margin-top: 10px;
+      border-top: 1px solid rgba(148, 163, 184, 0.12);
+    }
+    .preset-label { font-family: var(--font-mono); font-size: 11px; color: var(--text-secondary); white-space: nowrap; }
+    .preset-btn {
+      padding: 5px 11px; border-radius: 8px; font-size: 11.5px; font-weight: 500;
+      background: #0d1629; color: #cbd5e1; border: 1px solid rgba(148, 163, 184, 0.18);
+      white-space: nowrap;
+    }
+    .preset-btn:hover { border-color: var(--accent-cyan); color: #fff; }
+    .preset-btn.active {
+      background: rgba(34, 211, 238, 0.2); color: #a5f3fc;
+      border-color: rgba(34, 211, 238, 0.55); font-weight: 700;
+    }
+
+    /* Pathway Tabs */
+    .pathway-bar {
+      max-width: 1720px; width: 100%; margin: 14px auto 0; padding: 0 20px;
+      display: grid; grid-template-columns: repeat(6, minmax(150px, 1fr)); gap: 8px;
+      overflow-x: auto;
+    }
+    .pathway-tab {
+      text-align: left; padding: 9px 12px; border-radius: 12px;
+      background: var(--bg-panel); border: 1px solid var(--border-subtle);
+      color: var(--text-secondary);
+    }
+    .pathway-tab:hover { border-color: rgba(34, 211, 238, 0.4); color: #fff; }
+    .pathway-tab.active {
+      background: linear-gradient(145deg, rgba(34, 211, 238, 0.18), rgba(37, 99, 235, 0.16));
+      border-color: var(--accent-cyan); color: #fff;
+      box-shadow: 0 4px 16px rgba(6, 182, 212, 0.16);
+    }
+    .pathway-tab .pt-title { font-size: 12px; font-weight: 700; display: block; }
+    .pathway-tab .pt-sub { font-size: 10.5px; color: #94a3b8; display: block; margin-top: 2px; }
+    .pathway-tab.active .pt-sub { color: #a5f3fc; }
+
+    /* Shared Decision Making (Patient Counseling) Banner */
+    .sdm-section {
+      max-width: 1720px; width: 100%; margin: 16px auto 0; padding: 0 20px;
+    }
+    .sdm-card-wrap {
+      background: linear-gradient(155deg, rgba(49, 46, 129, 0.42), rgba(13, 22, 40, 0.96));
+      border: 1px solid rgba(129, 140, 248, 0.48);
+      border-radius: 18px; padding: 18px 20px;
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.6);
+    }
+    .sdm-header {
+      display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+      gap: 12px; padding-bottom: 14px; margin-bottom: 14px;
+      border-bottom: 1px solid rgba(129, 140, 248, 0.25);
+    }
+    .sdm-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    @media (max-width: 1024px) { .sdm-grid { grid-template-columns: 1fr; } }
+    .sdm-story-card {
+      background: var(--bg-subcard); border: 1px solid rgba(148, 163, 184, 0.16);
+      border-radius: 14px; padding: 14px; display: flex; flex-direction: column; justify-content: space-between;
+    }
+
+    /* Main 3-Column Workspace */
+    .workspace {
+      max-width: 1720px; width: 100%; margin: 16px auto 28px; padding: 0 20px;
+      display: grid; grid-template-columns: repeat(12, 1fr); gap: 16px;
+      flex: 1;
+    }
+    .col-4 { grid-column: span 4; }
+    .col-5 { grid-column: span 5; }
+    .col-7 { grid-column: span 7; }
+    @media (max-width: 1280px) {
+      .col-4, .col-5, .col-7 { grid-column: span 12; }
+    }
+
+    .panel {
+      background: var(--bg-panel);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--border-subtle);
+      border-radius: 18px; padding: 16px 18px;
+      box-shadow: 0 14px 32px -12px rgba(0, 0, 0, 0.72);
+    }
+    .panel-header {
+      display: flex; align-items: center; justify-content: space-between; gap: 8px;
+      margin-bottom: 12px;
+    }
+    .step-title { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #fff; }
+    .step-badge {
+      width: 24px; height: 24px; border-radius: 7px;
+      display: inline-flex; align-items: center; justify-content: center;
+      font-family: var(--font-mono); font-size: 12px; font-weight: 700;
+    }
+
+    .subcard {
+      background: var(--bg-subcard);
+      border: 1px solid rgba(148, 163, 184, 0.14);
+      border-radius: 12px; padding: 11px 12px; margin-bottom: 10px;
+    }
+    .subcard:last-child { margin-bottom: 0; }
+
+    /* Form Controls */
+    .row-between { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+    .grid-5 { display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px; }
+
+    label.field-lbl { font-size: 11.5px; font-weight: 600; color: #cbd5e1; }
+    .val-mono { font-family: var(--font-mono); font-size: 12px; font-weight: 700; color: var(--accent-cyan); }
+
+    input[type="range"] {
+      -webkit-appearance: none; appearance: none;
+      width: 100%; height: 6px; border-radius: 999px;
+      background: #1e293b; outline: none; margin: 7px 0 3px;
+    }
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none; appearance: none;
+      width: 16px; height: 16px; border-radius: 50%;
+      background: #22d3ee; border: 2px solid #060b16;
+      cursor: pointer; box-shadow: 0 0 8px rgba(34, 211, 238, 0.75);
+    }
+    select {
+      width: 100%; background: #050914; color: #f8fafc;
+      border: 1px solid rgba(148, 163, 184, 0.28);
+      border-radius: 9px; padding: 8px 10px;
+      font-size: 12px; font-weight: 500; outline: none;
+    }
+    select:focus { border-color: var(--accent-cyan); }
+
+    .seg-group { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; background: #050914; padding: 3px; border-radius: 9px; border: 1px solid rgba(148, 163, 184, 0.2); }
+    .seg-btn { padding: 5px 8px; border-radius: 7px; font-size: 11.5px; font-weight: 600; background: transparent; color: #94a3b8; }
+    .seg-btn.active { background: #22d3ee; color: #050914; }
+
+    /* Risk Enhancer Pills */
+    .enhancer-wrap { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 6px; }
+    .enh-pill {
+      padding: 4px 8px; border-radius: 7px; font-size: 10.5px; font-weight: 500;
+      background: #060b16; color: #94a3b8; border: 1px solid rgba(148, 163, 184, 0.2);
+    }
+    .enh-pill:hover { border-color: rgba(34, 211, 238, 0.5); color: #e2e8f0; }
+    .enh-pill.active {
+      background: rgba(34, 211, 238, 0.18); color: #a5f3fc;
+      border-color: rgba(34, 211, 238, 0.55); font-weight: 600;
+    }
+
+    /* 3D Viewport & Canvases */
+    .viewport-box {
+      position: relative; width: 100%; height: 310px;
+      border-radius: 14px; overflow: hidden;
+      background: radial-gradient(circle at 50% 45%, #0e1a33 0%, #050914 100%);
+      border: 1px solid rgba(34, 211, 238, 0.25);
+      margin-bottom: 12px;
+      touch-action: none;
+    }
+    #artery-canvas { width: 100%; height: 100%; display: block; cursor: grab; }
+    #artery-canvas:active { cursor: grabbing; }
+
+    .hud-overlay {
+      position: absolute; z-index: 5; pointer-events: none;
+      background: rgba(6, 11, 22, 0.86); backdrop-filter: blur(8px);
+      border: 1px solid rgba(148, 163, 184, 0.2);
+      border-radius: 10px; padding: 7px 10px; font-size: 10.5px;
+    }
+    .hud-tl { top: 10px; left: 10px; max-width: 205px; }
+    .hud-tr { top: 10px; right: 10px; }
+    .hud-bottom {
+      position: absolute; bottom: 8px; left: 10px; right: 10px; z-index: 6;
+      display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px;
+      background: rgba(6, 11, 22, 0.88); border: 1px solid rgba(148, 163, 184, 0.2);
+      border-radius: 9px; padding: 5px 10px; font-size: 10.5px; color: #cbd5e1;
+    }
+    .progress-track { width: 100%; height: 6px; background: #1e293b; border-radius: 999px; overflow: hidden; display: flex; margin: 4px 0; }
+    .dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 5px; }
+
+    /* KPI Grid */
+    .kpi-card {
+      background: var(--bg-subcard); border: 1px solid rgba(148, 163, 184, 0.16);
+      border-radius: 12px; padding: 10px 12px;
+    }
+    .kpi-label { font-family: var(--font-mono); font-size: 10px; text-transform: uppercase; color: var(--text-secondary); }
+    .kpi-val { font-family: var(--font-mono); font-size: 20px; font-weight: 700; color: #fff; }
+    .kpi-sub { font-size: 11px; margin-top: 3px; font-weight: 500; }
+
+    /* Trajectory Chart */
+    .chart-box {
+      background: var(--bg-subcard); border: 1px solid rgba(148, 163, 184, 0.16);
+      border-radius: 12px; padding: 10px 12px; margin-top: 10px;
+    }
+    #burden-canvas { width: 100%; height: 135px; display: block; margin-top: 6px; }
+
+    /* Modals */
+    .modal-backdrop {
+      position: fixed; inset: 0; z-index: 60;
+      background: rgba(2, 6, 15, 0.82); backdrop-filter: blur(6px);
+      display: none; align-items: center; justify-content: center; padding: 16px;
+    }
+    .modal-backdrop.open { display: flex; }
+    .modal-card {
+      background: #0b1324; border: 1px solid rgba(34, 211, 238, 0.35);
+      border-radius: 18px; max-width: 980px; width: 100%;
+      max-height: 88vh; overflow-y: auto; padding: 20px 24px;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.85);
+    }
+    .modal-card.narrow { max-width: 720px; }
+    table.ref-table { width: 100%; border-collapse: collapse; font-size: 12px; margin-top: 10px; }
+    table.ref-table th {
+      background: #060b16; color: #94a3b8; font-family: var(--font-mono);
+      font-size: 10.5px; text-transform: uppercase; text-align: left;
+      padding: 10px; border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+    }
+    table.ref-table td {
+      padding: 10px; border-bottom: 1px solid rgba(148, 163, 184, 0.12);
+      vertical-align: top; color: #e2e8f0;
+    }
+    textarea.code-box {
+      width: 100%; background: #050914; color: #e2e8f0;
+      border: 1px solid rgba(148, 163, 184, 0.28); border-radius: 12px;
+      padding: 12px; font-family: var(--font-mono); font-size: 11.5px;
+      line-height: 1.5; resize: vertical; outline: none;
+    }
+    .hidden { display: none !important; }
+    .text-cyan { color: var(--accent-cyan); }
+    .text-emerald { color: var(--accent-emerald); }
+    .text-amber { color: var(--accent-amber); }
+    .text-rose { color: var(--accent-rose); }
+    .text-indigo { color: var(--accent-indigo); }
+    .mt-2 { margin-top: 8px; }
+    .mt-3 { margin-top: 12px; }
+    .mb-2 { margin-bottom: 8px; }
+  </style>
+</head>
+<body>
+<div class="app-shell">
+
+  <!-- TOP CLINICAL HEADER & OUTPATIENT PRESET SCENARIOS -->
+  <header class="topbar">
+    <div class="container">
+      <div class="topbar-row">
+        <div class="brand">
+          <div class="brand-icon">🫀</div>
+          <div>
+            <div class="badge-row">
+              <span class="pill-tag pill-emerald">2026 ACC/AHA Dyslipidemia Guideline</span>
+              <span class="pill-tag pill-cyan">2026 ACC Early Atherosclerosis Statement</span>
+            </div>
+            <h1>Point-of-Care Lipidology, Drug Dosing &amp; 3D Atheroma Suite</h1>
+          </div>
+        </div>
+
+        <div class="toolbar-actions">
+          <button type="button" id="btn-counseling" class="btn">
+            <span>🩺</span> <span id="counseling-btn-text">Patient Counseling View</span>
+          </button>
+          <button type="button" id="btn-open-dosing" class="btn btn-cyan">
+            <span>💊</span> Drug Dosing &amp; Escalation Table
+          </button>
+          <button type="button" id="btn-open-safety" class="btn btn-rose">
+            <span>⚠️</span> Special Populations &amp; Safety
+          </button>
+          <button type="button" id="btn-open-ehr" class="btn btn-primary">
+            <span>📋</span> 1-Click EHR Rx &amp; Note
+          </button>
+        </div>
+      </div>
+
+      <!-- 1-Click Outpatient Scenarios -->
+      <div class="preset-bar">
+        <span class="preset-label">⚡ Outpatient Cases:</span>
+        <button type="button" class="preset-btn active" data-preset="borderline_lpa">1. 42y Borderline + High Lp(a) 165</button>
+        <button type="button" class="preset-btn" data-preset="vhr_ascvd">2. 58y Very High-Risk ASCVD (Post-MI + DM)</button>
+        <button type="button" class="preset-btn" data-preset="hefh">3. 34y HeFH / LDL 215 mg/dL</button>
+        <button type="button" class="preset-btn" data-preset="dm_high">4. 52y Diabetes + High-Risk (VESALIUS-CV)</button>
+        <button type="button" class="preset-btn" data-preset="statin_intol">5. 61y Statin-Intolerant (CLEAR / RACING)</button>
+        <button type="button" class="preset-btn" data-preset="cac0_caveat">6. 48y CAC = 0 Caveat (Smoker + FamHx)</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- 6 CLINICAL PATHWAY TABS -->
+  <nav class="pathway-bar" aria-label="2026 ACC/AHA Clinical Pathways">
+    <button type="button" class="pathway-tab active" data-pathway="primary">
+      <span class="pt-title">1. Primary Prevention</span>
+      <span class="pt-sub">PREVENT-ASCVD 10 &amp; 30-Yr</span>
+    </button>
+    <button type="button" class="pathway-tab" data-pathway="ascvd">
+      <span class="pt-title">2. Clinical ASCVD</span>
+      <span class="pt-sub">Standard &lt;70 vs VHR &lt;55</span>
+    </button>
+    <button type="button" class="pathway-tab" data-pathway="severe">
+      <span class="pt-title">3. Severe LDL ≥190 / HeFH</span>
+      <span class="pt-sub">Class 1 High-Intensity + Combo</span>
+    </button>
+    <button type="button" class="pathway-tab" data-pathway="diabetes">
+      <span class="pt-title">4. Diabetes Mellitus</span>
+      <span class="pt-sub">Age 20–75+ &amp; VESALIUS-CV</span>
+    </button>
+    <button type="button" class="pathway-tab" data-pathway="ckd_hiv">
+      <span class="pt-title">5. CKD Stage ≥3 / HIV</span>
+      <span class="pt-sub">SHARP &amp; REPRIEVE ART Safe</span>
+    </button>
+    <button type="button" class="pathway-tab" data-pathway="youth">
+      <span class="pt-title">6. Youth &amp; Young Adults</span>
+      <span class="pt-sub">&lt;30y PDAY &amp; Cascade Screen</span>
+    </button>
+  </nav>
+
+  <!-- BEDSIDE PATIENT COUNSELING VIEW (SHARED DECISION-MAKING PANEL) -->
+  <section id="sdm-section" class="sdm-section hidden">
+    <div class="sdm-card-wrap">
+      <div class="sdm-header">
+        <div style="display:flex; align-items:center; gap:12px;">
+          <div style="width:40px; height:40px; border-radius:11px; background:rgba(99,102,241,0.28); border:1px solid rgba(129,140,248,0.5); display:flex; align-items:center; justify-content:center; font-size:20px;">🤝</div>
+          <div>
+            <span class="pill-tag pill-purple">Shared Decision-Making (SDM) Mode</span>
+            <h2 style="font-size:16px; font-weight:700; color:#fff; margin-top:2px;">Your Personal Heart &amp; Artery Protection Plan</h2>
+          </div>
+        </div>
+        <div style="display:flex; flex-wrap:wrap; gap:8px;">
+          <button type="button" id="btn-open-handout" class="btn btn-primary">
+            <span>🖨️</span> Print / Copy Patient Handout
+          </button>
+          <button type="button" id="btn-exit-counseling" class="btn">
+            <span>←</span> Return to Clinician View
+          </button>
+        </div>
+      </div>
+
+      <div class="sdm-grid">
+        <!-- Card 1: Your Artery Story Today -->
+        <div class="sdm-story-card" style="border-left: 4px solid #f59e0b;">
+          <div>
+            <div class="row-between mb-2">
+              <span style="font-size:11.5px; font-weight:700; text-transform:uppercase; color:#fcd34d;">1. Your Artery Story Today</span>
+              <span id="sdm-exposure-badge" class="pill-tag pill-amber">Lifetime Burden</span>
+            </div>
+            <p id="sdm-story-text" style="font-size:12.5px; color:#e2e8f0;"></p>
+          </div>
+          <div class="row-between mt-3" style="padding-top:8px; border-top:1px solid rgba(148,163,184,0.16); font-size:11px; color:#94a3b8;">
+            <span>Cumulative Cholesterol Exposure:</span>
+            <span id="sdm-mg-years" class="val-mono text-amber">4,672 mg-yrs</span>
+          </div>
+        </div>
+
+        <!-- Card 2: Your Target & Protection -->
+        <div class="sdm-story-card" style="border-left: 4px solid #22d3ee;">
+          <div>
+            <div class="row-between mb-2">
+              <span style="font-size:11.5px; font-weight:700; text-transform:uppercase; color:#67e8f9;">2. Your Target &amp; Protection</span>
+              <span id="sdm-rrr-pill" class="pill-tag pill-emerald">-43% Risk</span>
+            </div>
+            <div style="background:#050914; border:1px solid rgba(148,163,184,0.18); border-radius:10px; padding:9px; margin:6px 0;">
+              <div class="row-between" style="font-size:11px;">
+                <span style="color:#94a3b8;">Starting LDL ("Bad") Cholesterol</span>
+                <span id="sdm-ldl-start" class="val-mono text-rose">146 mg/dL</span>
+              </div>
+              <div class="progress-track"><div id="sdm-bar-start" style="background:#f43f5e; width:70%;"></div></div>
+              <div class="row-between mt-2" style="font-size:11px;">
+                <span style="color:#f1f5f9; font-weight:600;">With Your Plan (Goal &lt;<span id="sdm-goal-val">100</span>)</span>
+                <span id="sdm-ldl-proj" class="val-mono text-emerald">72 mg/dL</span>
+              </div>
+              <div class="progress-track"><div id="sdm-bar-proj" style="background:#10b981; width:35%;"></div></div>
+            </div>
+            <p id="sdm-protection-text" style="font-size:12px; color:#cbd5e1; margin-top:6px;"></p>
+          </div>
+          <div class="mt-2" style="padding-top:7px; border-top:1px solid rgba(148,163,184,0.16); font-size:10.5px; color:#a5f3fc;">
+            Every <strong>38 mg/dL</strong> drop in LDL-C lowers heart attack &amp; stroke risk by <strong>~25%</strong>—starting earlier compounds protection over 10–30 years.
+          </div>
+        </div>
+
+        <!-- Card 3: Your Daily Action Plan -->
+        <div class="sdm-story-card" style="border-left: 4px solid #10b981;">
+          <div>
+            <div class="row-between mb-2">
+              <span style="font-size:11.5px; font-weight:700; text-transform:uppercase; color:#6ee7b7;">3. Your Daily Action Plan</span>
+              <span class="pill-tag pill-emerald">Step-by-Step</span>
+            </div>
+            <div id="sdm-actions-list" style="display:flex; flex-direction:column; gap:6px; font-size:12px; color:#e2e8f0;"></div>
+          </div>
+          <div id="sdm-safety-note" class="mt-2" style="padding-top:7px; border-top:1px solid rgba(148,163,184,0.16); font-size:11px; color:#cbd5e1;"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MAIN 3-STEP CLINICAL WORKSPACE -->
+  <main class="workspace">
+
+    <!-- ===================================================================
+         STEP 1: PATIENT PROFILE, BIOMARKERS, ENHANCERS & IMAGING (4 Cols)
+    ==================================================================== -->
+    <section id="step1-col" class="panel col-4">
+      <div class="panel-header">
+        <div class="step-title">
+          <span class="step-badge pill-cyan">1</span>
+          <span>Risk Profile, Lipids &amp; Imaging</span>
+        </div>
+        <span id="pathway-badge" class="pill-tag pill-cyan">Primary Prevention</span>
+      </div>
+
+      <!-- Age, Sex & Ancestry -->
+      <div class="subcard">
+        <div class="row-between">
+          <label class="field-lbl" for="in-age">Patient Age</label>
+          <span id="disp-age" class="val-mono">42 yrs</span>
+        </div>
+        <input type="range" id="in-age" min="18" max="85" value="42" />
+        <div class="grid-2 mt-2" style="align-items:center;">
+          <div class="seg-group">
+            <button type="button" id="btn-sex-male" class="seg-btn active">Male</button>
+            <button type="button" id="btn-sex-female" class="seg-btn">Female</button>
+          </div>
+          <label style="display:flex; align-items:center; gap:6px; font-size:11px; color:#cbd5e1; cursor:pointer; justify-content:flex-end;">
+            <input type="checkbox" id="chk-east-asian" style="accent-color:#22d3ee;" />
+            <span>East Asian (Statin PK)</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Pathway-Specific Context Box -->
+      <div id="pathway-context-box" class="subcard"></div>
+
+      <!-- Lipid Panel & Universal Lp(a) -->
+      <div class="subcard">
+        <div class="grid-2">
+          <div>
+            <div class="row-between">
+              <label class="field-lbl" for="in-ldl">Baseline LDL-C</label>
+              <span id="disp-ldl" class="val-mono">146 mg/dL</span>
+            </div>
+            <input type="range" id="in-ldl" min="70" max="320" value="146" />
+          </div>
+          <div>
+            <div class="row-between">
+              <label class="field-lbl" for="in-nonhdl">Non-HDL-C</label>
+              <span id="disp-nonhdl" class="val-mono" style="color:#7dd3fc;">176 mg/dL</span>
+            </div>
+            <input type="range" id="in-nonhdl" min="85" max="360" value="176" />
+          </div>
+        </div>
+
+        <div class="grid-2 mt-2">
+          <div>
+            <div class="row-between">
+              <label class="field-lbl" for="in-tg">Triglycerides</label>
+              <span id="disp-tg" class="val-mono text-amber">150 mg/dL</span>
+            </div>
+            <input type="range" id="in-tg" min="60" max="650" step="5" value="150" />
+          </div>
+          <div>
+            <div class="row-between">
+              <label class="field-lbl" for="in-lpa">Universal Lp(a)</label>
+              <span id="disp-lpa" class="val-mono text-rose">165 nmol/L</span>
+            </div>
+            <input type="range" id="in-lpa" min="10" max="500" step="5" value="165" />
+          </div>
+        </div>
+        <div id="lpa-multiplier-bar" class="mt-2" style="font-size:11px; padding:6px 8px; border-radius:8px; background:#050914; border:1px solid rgba(244,63,94,0.35); color:#fecdd3;"></div>
+      </div>
+
+      <!-- 2026 Risk Enhancers (Table 2) -->
+      <div class="subcard">
+        <div class="row-between">
+          <span class="field-lbl">2026 ACC/AHA Risk Enhancers (Table 2)</span>
+          <span id="disp-enhancer-count" class="pill-tag pill-amber">2 Active</span>
+        </div>
+        <div id="enhancer-list" class="enhancer-wrap"></div>
+        <div id="enhancer-alert" class="mt-2 hidden" style="font-size:10.5px; color:#fcd34d;"></div>
+      </div>
+
+      <!-- Subclinical Imaging: CAC & CCTA (Table 3) -->
+      <div class="subcard" style="border-left: 3px solid #22d3ee;">
+        <div class="row-between">
+          <span class="field-lbl">CAC Agatston Score (AU)</span>
+          <div style="display:flex; align-items:center; gap:8px;">
+            <label style="display:flex; align-items:center; gap:4px; font-size:10.5px; color:#cbd5e1; cursor:pointer;">
+              <input type="checkbox" id="chk-cac75" style="accent-color:#22d3ee;" />
+              <span>≥75th %ile</span>
+            </label>
+            <span id="disp-cac" class="val-mono">0 AU</span>
+          </div>
+        </div>
+        <input type="range" id="in-cac" min="0" max="1100" step="5" value="0" />
+        <div class="grid-5 mt-2 mb-2">
+          <button type="button" class="btn btn-sm cac-quick" data-cac="0">0</button>
+          <button type="button" class="btn btn-sm cac-quick" data-cac="45">1–99</button>
+          <button type="button" class="btn btn-sm cac-quick" data-cac="165">100–299</button>
+          <button type="button" class="btn btn-sm cac-quick" data-cac="450">300–999</button>
+          <button type="button" class="btn btn-sm cac-quick" data-cac="1050">≥1,000</button>
+        </div>
+        <div id="cac-guidance-box" style="font-size:11px; padding:7px 9px; border-radius:8px;"></div>
+      </div>
+    </section>
+
+    <!-- ===================================================================
+         STEP 2: EXACT DRUG DOSING & ESCALATION REGIMEN BUILDER (4 Cols)
+    ==================================================================== -->
+    <section id="step2-col" class="panel col-4" style="display:flex; flex-direction:column; justify-content:space-between;">
+      <div>
+        <div class="panel-header">
+          <div class="step-title">
+            <span class="step-badge pill-emerald">2</span>
+            <span>Exact Drug Dosing &amp; Escalation</span>
+          </div>
+          <button type="button" id="btn-auto-optimize" class="btn btn-sm btn-primary">
+            ✨ Auto-Recommend Regimen
+          </button>
+        </div>
+
+        <!-- Foundation Lifestyle -->
+        <div class="subcard row-between">
+          <div>
+            <div style="font-size:12px; font-weight:700; color:#fff; display:flex; align-items:center; gap:6px;">
+              <span>AHA Life's Essential 8 Lifestyle</span>
+              <span class="pill-tag pill-emerald">Class 1</span>
+            </div>
+            <div style="font-size:10.5px; color:#94a3b8; margin-top:2px;">Mediterranean/DASH diet (&lt;6% sat fat) + ≥150 min/wk exercise (~10% ↓)</div>
+          </div>
+          <input type="checkbox" id="chk-lifestyle" checked style="width:17px; height:17px; accent-color:#10b981; cursor:pointer;" />
+        </div>
+
+        <!-- 1st-Line Statin Agent & Dose -->
+        <div class="subcard" style="border-left: 3px solid #10b981;">
+          <div class="row-between mb-2">
+            <span class="field-lbl">1st-Line Statin Agent &amp; Dose (HMGCR)</span>
+            <span id="statin-tier-badge" class="pill-tag pill-emerald">Moderate (-45%)</span>
+          </div>
+          <select id="sel-statin">
+            <option value="none">None (Statin-Intolerant / Deferred)</option>
+            <optgroup label="High-Intensity Statins (Target ≥50% LDL-C ↓)">
+              <option value="rosuva_40">Rosuvastatin 40 mg PO daily [MAX DOSE • ~55% ↓]</option>
+              <option value="rosuva_20">Rosuvastatin 20 mg PO daily [Initial High • ~52% ↓]</option>
+              <option value="atorva_80">Atorvastatin 80 mg PO daily [MAX DOSE • ~52% ↓]</option>
+              <option value="atorva_40">Atorvastatin 40 mg PO daily [Initial High • ~48% ↓]</option>
+            </optgroup>
+            <optgroup label="Moderate-Intensity Statins (Target 30%–49% LDL-C ↓)">
+              <option value="rosuva_10" selected>Rosuvastatin 10 mg PO daily [Standard Initial • ~45% ↓]</option>
+              <option value="rosuva_5">Rosuvastatin 5 mg PO daily [East Asian / CKD / SAMS • ~38% ↓]</option>
+              <option value="atorva_20">Atorvastatin 20 mg PO daily [Standard Initial • ~43% ↓]</option>
+              <option value="atorva_10">Atorvastatin 10 mg PO daily [Low/Mod Start • ~37% ↓]</option>
+              <option value="pitava_4">Pitavastatin 4 mg PO daily [MAX DOSE • HIV/DM/SAMS • ~42% ↓]</option>
+              <option value="pitava_2">Pitavastatin 2 mg PO daily [Initial • ~38% ↓]</option>
+              <option value="pitava_1">Pitavastatin 1 mg PO daily [CKD Initial • ~31% ↓]</option>
+              <option value="prava_80">Pravastatin 80 mg PO daily [MAX DOSE • Hydrophilic • ~37% ↓]</option>
+              <option value="prava_40">Pravastatin 40 mg PO daily [Initial • ~32% ↓]</option>
+            </optgroup>
+          </select>
+          <div id="pearl-statin" style="font-size:10.5px; color:#cbd5e1; background:#050914; border:1px solid rgba(148,163,184,0.16); border-radius:8px; padding:7px 9px; margin-top:7px;"></div>
+        </div>
+
+        <!-- 2nd-Line Oral Non-Statin -->
+        <div class="subcard" style="border-left: 3px solid #22d3ee;">
+          <div class="row-between mb-2">
+            <span class="field-lbl">2nd-Line Oral Non-Statin Add-On</span>
+            <span style="font-family:var(--font-mono); font-size:10px; color:#67e8f9;">Rule of 6% vs +22–38% ↓</span>
+          </div>
+          <select id="sel-oral">
+            <option value="none">None</option>
+            <option value="ezetimibe_10">Ezetimibe 10 mg PO daily [Initial = Max • ~22% add-on ↓]</option>
+            <option value="bempedoic_180">Bempedoic Acid 180 mg PO daily [Initial = Max • ~20% ↓]</option>
+            <option value="nexlizet_180_10">Bempedoic Acid 180 mg / Ezetimibe 10 mg FDC PO daily [~38% ↓]</option>
+          </select>
+          <div id="pearl-oral" style="font-size:10.5px; color:#cbd5e1; background:#050914; border:1px solid rgba(148,163,184,0.16); border-radius:8px; padding:7px 9px; margin-top:7px;"></div>
+        </div>
+
+        <!-- 3rd-Line PCSK9-Directed Therapy -->
+        <div class="subcard" style="border-left: 3px solid #c084fc;">
+          <div class="row-between mb-2">
+            <span class="field-lbl">3rd-Line PCSK9-Directed Therapy</span>
+            <span style="font-family:var(--font-mono); font-size:10px; color:#e9d5ff;">~50%–60% Add-On ↓</span>
+          </div>
+          <select id="sel-pcsk9">
+            <option value="none">None</option>
+            <option value="evolocumab_140">Evolocumab 140 mg SC every 2 weeks [Standard • ~58% ↓]</option>
+            <option value="evolocumab_420">Evolocumab 420 mg SC once monthly [Max Monthly • ~56% ↓]</option>
+            <option value="alirocumab_75">Alirocumab 75 mg SC every 2 weeks [Initial Dose • ~48% ↓]</option>
+            <option value="alirocumab_150">Alirocumab 150 mg SC every 2 weeks [Max Escalated • ~58% ↓]</option>
+            <option value="alirocumab_300">Alirocumab 300 mg SC every 4 weeks [Alt Monthly • ~52% ↓]</option>
+            <option value="inclisiran_284">Inclisiran 284 mg SC (Day 1, Day 90, then q6mo • ~50% ↓)</option>
+          </select>
+          <div id="pearl-pcsk9" style="font-size:10.5px; color:#cbd5e1; background:#050914; border:1px solid rgba(148,163,184,0.16); border-radius:8px; padding:7px 9px; margin-top:7px;"></div>
+        </div>
+
+        <!-- Hypertriglyceridemia Add-On -->
+        <div class="subcard" style="border-left: 3px solid #f59e0b;">
+          <div class="row-between mb-2">
+            <span class="field-lbl">Hypertriglyceridemia Add-On</span>
+            <span id="tg-pill-status" class="pill-tag pill-amber">TG 150 mg/dL</span>
+          </div>
+          <select id="sel-tg">
+            <option value="none">None (Lifestyle + Statin First-Line)</option>
+            <option value="ipe_2g">Icosapent Ethyl 2 g PO BID with meals [4 g/day Max • REDUCE-IT]</option>
+            <option value="fenofibrate_145">Fenofibrate 145 mg PO daily [48 mg if eGFR 30–59; TG ≥500]</option>
+          </select>
+          <div id="pearl-tg" style="font-size:10.5px; color:#94a3b8; margin-top:6px;"></div>
+        </div>
+      </div>
+
+      <!-- Escalation & Monitoring Principle Box -->
+      <div style="margin-top:10px; padding:9px 11px; border-radius:11px; background:rgba(6, 182, 212, 0.12); border:1px solid rgba(34, 211, 238, 0.3); font-size:10.5px; color:#cffafe;">
+        <strong>⏱️ Escalation &amp; Monitoring Principle:</strong> Recheck lipids in <strong>4–12 weeks</strong> after initiation or dose change, then every <strong>3–12 months</strong>. Doubling a statin adds only <strong>~6%</strong> LDL-C lowering (Rule of 6%); adding Ezetimibe 10 mg adds <strong>~20–25%</strong> with superior tolerability (RACING).
+      </div>
+    </section>
+
+    <!-- ===================================================================
+         STEP 3: 3D SMART PLAQUE SIMULATION & OUTCOMES ADVISOR (4 Cols)
+    ==================================================================== -->
+    <section id="step3-col" class="panel col-4">
+      <div class="panel-header">
+        <div class="step-title">
+          <span class="step-badge pill-purple">3</span>
+          <span>3D Atheroma &amp; Clinical Outcomes</span>
+        </div>
+        <div style="display:flex; gap:4px; background:#050914; padding:3px; border-radius:8px; border:1px solid rgba(148,163,184,0.2);">
+          <button type="button" class="btn btn-sm cam-btn active" data-cam="iso" style="background:#22d3ee; color:#050914;">3D Iso</button>
+          <button type="button" class="btn btn-sm cam-btn" data-cam="lumen">Lumen</button>
+          <button type="button" class="btn btn-sm cam-btn" data-cam="plaque">Plaque</button>
+          <button type="button" class="btn btn-sm cam-btn" data-cam="reset">Reset</button>
+        </div>
+      </div>
+
+      <!-- Interactive 3D Coronary Artery & Smart Plaque Accumulation Canvas -->
+      <div id="artery-viewport" class="viewport-box">
+        <canvas id="artery-canvas"></canvas>
+
+        <!-- Top-Left Plaque Telemetry HUD -->
+        <div class="hud-overlay hud-tl">
+          <div style="font-family:var(--font-mono); font-size:9px; color:#94a3b8; text-transform:uppercase;">3D Atheroma Remodeling</div>
+          <div id="hud-pav-text" style="font-family:var(--font-mono); font-size:11.5px; font-weight:700; color:#22d3ee;">16% PAV • Lipid Core</div>
+          <div class="progress-track">
+            <div id="hud-core-bar" style="background:#fbbf24; width:55%;"></div>
+            <div id="hud-cap-bar" style="background:#f8fafc; width:20%;"></div>
+          </div>
+          <div class="row-between" style="font-size:9px; color:#94a3b8;">
+            <span>■ Necrotic Core</span>
+            <span>■ Fibrous Cap</span>
+          </div>
+          <div id="hud-patency" style="font-family:var(--font-mono); font-size:9.5px; color:#6ee7b7; margin-top:3px;">Lumen Patency: 84%</div>
+        </div>
+
+        <!-- Top-Right Lipoprotein Particle Legend -->
+        <div class="hud-overlay hud-tr">
+          <div><span class="dot" style="background:#fbbf24;"></span>LDL-C (<span id="hud-cnt-ldl">28</span>)</div>
+          <div><span class="dot" style="background:#f43f5e;"></span>Lp(a) 6× (<span id="hud-cnt-lpa">12</span>)</div>
+          <div><span class="dot" style="background:#22d3ee;"></span>ApoB Rem (<span id="hud-cnt-apob">10</span>)</div>
+        </div>
+
+        <!-- Bottom Interactive Timeline Scrubber & Orbit Controls -->
+        <div class="hud-bottom">
+          <div style="display:flex; align-items:center; gap:6px;">
+            <button type="button" id="btn-play-timeline" class="btn btn-sm btn-cyan" style="padding:2px 8px;">⏸ Pause</button>
+            <span id="hud-timeline-label" style="font-family:var(--font-mono); font-size:10px; color:#a5f3fc;">Age 42y Trajectory</span>
+          </div>
+          <div style="display:flex; align-items:center; gap:8px;">
+            <span style="font-size:9.5px; color:#94a3b8;">Drag 3D • Scroll Zoom</span>
+            <label style="display:flex; align-items:center; gap:4px; cursor:pointer;">
+              <input type="checkbox" id="chk-auto-orbit" checked style="accent-color:#22d3ee;" />
+              <span>Orbit</span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Dual Lipid Goals Header -->
+      <div class="row-between mb-2">
+        <span style="font-size:11.5px; font-weight:700; text-transform:uppercase; letter-spacing:0.04em; color:#cbd5e1;">2026 Dual Lipid Goals</span>
+        <span id="goal-status-pill" class="pill-tag pill-emerald">✓ AT GOAL</span>
+      </div>
+
+      <!-- 4 KPI Cards -->
+      <div class="grid-2">
+        <div class="kpi-card">
+          <div class="kpi-label">Projected LDL-C</div>
+          <div class="row-between" style="align-items:baseline; margin-top:2px;">
+            <span id="kpi-ldl-val" class="kpi-val">72 <span style="font-size:11px; font-weight:400; color:#94a3b8;">mg/dL</span></span>
+            <span id="kpi-ldl-goal" class="val-mono">Goal &lt;100</span>
+          </div>
+          <div id="kpi-ldl-sub" class="kpi-sub text-emerald">✓ Target achieved</div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-label">Projected Non-HDL-C</div>
+          <div class="row-between" style="align-items:baseline; margin-top:2px;">
+            <span id="kpi-nonhdl-val" class="kpi-val">94 <span style="font-size:11px; font-weight:400; color:#94a3b8;">mg/dL</span></span>
+            <span id="kpi-nonhdl-goal" class="val-mono" style="color:#7dd3fc;">Goal &lt;130</span>
+          </div>
+          <div id="kpi-nonhdl-sub" class="kpi-sub text-emerald">✓ Target achieved</div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-label">LDL-C Reduction</div>
+          <div class="row-between" style="align-items:baseline; margin-top:2px;">
+            <span id="kpi-pct-val" class="kpi-val text-emerald">-51%</span>
+            <span id="kpi-pct-req" style="font-family:var(--font-mono); font-size:10.5px; color:#94a3b8;">Req: ≥30%</span>
+          </div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-label">CTT MACE RRR</div>
+          <div class="row-between" style="align-items:baseline; margin-top:2px;">
+            <span id="kpi-rrr-val" class="kpi-val text-cyan">43% RRR</span>
+            <span style="font-family:var(--font-mono); font-size:10px; color:#94a3b8;">25% / 38 mg</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Escalation Next-Step Advisor -->
+      <div id="advisor-box" class="mt-3" style="padding:10px 12px; border-radius:12px; background:rgba(16,185,129,0.12); border:1px solid rgba(16,185,129,0.38); font-size:11.5px; color:#d1fae5;"></div>
+
+      <!-- Lifetime Cumulative LDL-C Burden Trajectory Chart (mg-years) -->
+      <div class="chart-box">
+        <div class="row-between">
+          <span style="font-size:11px; font-weight:700; color:#e2e8f0;">Cumulative LDL-C Exposure Trajectory (mg-years)</span>
+          <span id="chart-threshold-tag" style="font-family:var(--font-mono); font-size:10px; color:#fcd34d;">Plaque Threshold: 5,000 mg-yrs</span>
+        </div>
+        <canvas id="burden-canvas"></canvas>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- =========================================================================
+     MODAL 1: COMPREHENSIVE DRUG DOSING, ESCALATION & MAX DOSE TABLE
+========================================================================== -->
+<div id="modal-dosing" class="modal-backdrop" role="dialog" aria-modal="true">
+  <div class="modal-card">
+    <div class="row-between" style="padding-bottom:12px; border-bottom:1px solid rgba(148,163,184,0.2);">
+      <div>
+        <span class="pill-tag pill-cyan">2026 ACC/AHA Clinical Pharmacology Reference</span>
+        <h3 style="font-size:17px; font-weight:700; color:#fff; margin-top:4px;">Lipid-Lowering Therapies: Initial Dose, Escalation Rules &amp; Max Dose Limits</h3>
+      </div>
+      <button type="button" class="btn btn-sm modal-close" data-close="modal-dosing">✕ Close</button>
+    </div>
+
+    <div class="grid-3 mt-3" style="font-size:11.5px;">
+      <div class="subcard" style="border-left:3px solid #22d3ee;">
+        <div style="font-weight:700; color:#67e8f9; margin-bottom:4px;">1. Upfront Combination Therapy</div>
+        <p style="color:#cbd5e1;">Initiate statin + ezetimibe simultaneously when baseline LDL-C is too elevated for statin monotherapy to reach goal (e.g., Very High-Risk ASCVD with LDL-C &gt;110 mg/dL or HeFH ≥190 mg/dL).</p>
+      </div>
+      <div class="subcard" style="border-left:3px solid #10b981;">
+        <div style="font-weight:700; color:#6ee7b7; margin-bottom:4px;">2. Rule of 6% vs Add-On Therapy</div>
+        <p style="color:#cbd5e1;">Doubling a statin dose provides only <strong>~6%</strong> incremental LDL-C reduction while increasing myalgia risk. Adding Ezetimibe 10 mg adds <strong>~20–25%</strong> lowering with superior tolerability (RACING trial).</p>
+      </div>
+      <div class="subcard" style="border-left:3px solid #f59e0b;">
+        <div style="font-weight:700; color:#fcd34d; margin-bottom:4px;">3. 4–12 Week Lab Reassessment</div>
+        <p style="color:#cbd5e1;">Recheck lipid panel <strong>4–12 weeks</strong> after initiation or dose titration to verify adherence and numeric LDL-C / Non-HDL-C target attainment, then every <strong>3–12 months</strong>.</p>
+      </div>
+    </div>
+
+    <div style="overflow-x:auto;">
+      <table class="ref-table">
+        <thead>
+          <tr>
+            <th>Agent &amp; Class</th>
+            <th>Initial Dose</th>
+            <th>Escalation Protocol</th>
+            <th>Max Dose Limit</th>
+            <th>LDL-C ↓</th>
+            <th>Renal / Ancestry / Interaction Pearls</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Rosuvastatin</strong><br><span style="font-size:10.5px; color:#6ee7b7;">High/Mod Statin</span></td>
+            <td style="font-family:var(--font-mono);">10–20 mg PO daily<br><span style="font-size:10px; color:#fcd34d;">5 mg East Asian / eGFR &lt;30</span></td>
+            <td>Titrate after 4–12 wks; or add Ezetimibe 10 mg to 10–20 mg (RACING)</td>
+            <td style="font-family:var(--font-mono); color:#67e8f9;"><strong>40 mg/day</strong><br><span style="font-size:10px; color:#fda4af;">(10 mg if eGFR &lt;30)</span></td>
+            <td style="font-family:var(--font-mono);">38%–55%</td>
+            <td>Hydrophilic; minimal CYP3A4 interactions. Contraindicated with cyclosporine; max 20 mg with sofosbuvir/velpatasvir.</td>
+          </tr>
+          <tr>
+            <td><strong>Atorvastatin</strong><br><span style="font-size:10.5px; color:#6ee7b7;">High/Mod Statin</span></td>
+            <td style="font-family:var(--font-mono);">10–20 mg PO daily<br><span style="font-size:10px; color:#67e8f9;">40 mg if &gt;45% ↓ needed</span></td>
+            <td>Titrate 20 → 40 → 80 mg at ≥4 wk intervals if tolerated</td>
+            <td style="font-family:var(--font-mono); color:#67e8f9;"><strong>80 mg/day</strong><br><span style="font-size:10px; color:#6ee7b7;">(No renal adjustment)</span></td>
+            <td style="font-family:var(--font-mono);">37%–52%</td>
+            <td>Preferred high-intensity statin in severe CKD/ESRD. CYP3A4 substrate: max 20 mg with clarithromycin/itraconazole.</td>
+          </tr>
+          <tr>
+            <td><strong>Pitavastatin</strong><br><span style="font-size:10.5px; color:#67e8f9;">Moderate Statin</span></td>
+            <td style="font-family:var(--font-mono);">2 mg PO daily<br><span style="font-size:10px; color:#fcd34d;">(1 mg if eGFR 15–59)</span></td>
+            <td>Titrate 2 mg → 4 mg after 4 weeks</td>
+            <td style="font-family:var(--font-mono); color:#67e8f9;"><strong>4 mg/day</strong><br><span style="font-size:10px; color:#fda4af;">(2 mg if eGFR &lt;60)</span></td>
+            <td style="font-family:var(--font-mono);">31%–42%</td>
+            <td>Preferred in HIV on ART (REPRIEVE trial), prediabetes/DM, and SAMS history; minimal CYP metabolism.</td>
+          </tr>
+          <tr>
+            <td><strong>Pravastatin</strong><br><span style="font-size:10.5px; color:#94a3b8;">Low/Mod Statin</span></td>
+            <td style="font-family:var(--font-mono);">40 mg PO daily</td>
+            <td>Titrate 40 mg → 80 mg after 4 weeks</td>
+            <td style="font-family:var(--font-mono); color:#67e8f9;"><strong>80 mg/day</strong></td>
+            <td style="font-family:var(--font-mono);">32%–37%</td>
+            <td>Hydrophilic; safe with strong CYP3A4 inhibitors.</td>
+          </tr>
+          <tr>
+            <td><strong>Ezetimibe</strong><br><span style="font-size:10.5px; color:#67e8f9;">NPC1L1 Inhibitor</span></td>
+            <td style="font-family:var(--font-mono);">10 mg PO daily</td>
+            <td>Fixed dose (no titration); pair with statin or bempedoic acid</td>
+            <td style="font-family:var(--font-mono); color:#67e8f9;"><strong>10 mg/day</strong></td>
+            <td style="font-family:var(--font-mono);">+20%–25%</td>
+            <td>No renal adjustment. Space ≥2h before or ≥4h after bile acid sequestrants.</td>
+          </tr>
+          <tr>
+            <td><strong>Bempedoic Acid</strong><br><span style="font-size:10.5px; color:#fcd34d;">Hepatic ACL Inhibitor</span></td>
+            <td style="font-family:var(--font-mono);">180 mg PO daily<br><span style="font-size:10px; color:#67e8f9;">(or 180/10 mg FDC)</span></td>
+            <td>Fixed dose; 180/10 mg FDC lowers LDL-C by ~38% without statin</td>
+            <td style="font-family:var(--font-mono); color:#67e8f9;"><strong>180 mg/day</strong></td>
+            <td style="font-family:var(--font-mono);">18%–24%</td>
+            <td>Liver-activated prodrug (spares skeletal muscle; CLEAR Outcomes). Monitor uric acid/gout and tendon symptoms.</td>
+          </tr>
+          <tr>
+            <td><strong>Evolocumab / Alirocumab</strong><br><span style="font-size:10.5px; color:#e9d5ff;">PCSK9 mAb</span></td>
+            <td style="font-family:var(--font-mono);">Evo: 140 mg SC q2wk<br>Aliro: 75 mg SC q2wk</td>
+            <td>Alirocumab: escalate 75 → 150 mg SC q2wk at 4–8 wks if above goal</td>
+            <td style="font-family:var(--font-mono); color:#67e8f9;">Evo: 140 q2wk / 420 qMo<br>Aliro: 150 q2wk / 300 q4wk</td>
+            <td style="font-family:var(--font-mono);">50%–60%</td>
+            <td>Proven MACE reduction (FOURIER, ODYSSEY, VESALIUS-CV). Also lowers Lp(a) by ~20–25%.</td>
+          </tr>
+          <tr>
+            <td><strong>Inclisiran</strong><br><span style="font-size:10.5px; color:#e9d5ff;">PCSK9 siRNA</span></td>
+            <td style="font-family:var(--font-mono);">284 mg SC Day 1 &amp; Day 90</td>
+            <td>Maintenance dosing every 6 months (HCP-administered)</td>
+            <td style="font-family:var(--font-mono); color:#67e8f9;"><strong>284 mg SC q6mo</strong></td>
+            <td style="font-family:var(--font-mono);">~50%</td>
+            <td>Ideal for adherence barriers; PCSK9 mAbs preferred when outcome-proven therapy is prioritized pending CVOTs.</td>
+          </tr>
+          <tr>
+            <td><strong>Icosapent Ethyl</strong><br><span style="font-size:10.5px; color:#fcd34d;">Purified EPA</span></td>
+            <td style="font-family:var(--font-mono);">2 g PO BID with food</td>
+            <td>Fixed dose on top of maximally tolerated statin (REDUCE-IT)</td>
+            <td style="font-family:var(--font-mono); color:#67e8f9;"><strong>4 g/day</strong></td>
+            <td style="font-family:var(--font-mono);">TG ↓ ~20%</td>
+            <td>25% MACE reduction if TG 135–499 mg/dL + ASCVD or DM + ≥2 risk factors. Monitor for atrial fibrillation &amp; bleeding.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- =========================================================================
+     MODAL 2: SPECIAL POPULATIONS & SAFETY ALERTS
+========================================================================== -->
+<div id="modal-safety" class="modal-backdrop" role="dialog" aria-modal="true">
+  <div class="modal-card narrow">
+    <div class="row-between" style="padding-bottom:12px; border-bottom:1px solid rgba(148,163,184,0.2);">
+      <div>
+        <span class="pill-tag pill-rose">2026 ACC/AHA Clinical Safety &amp; Special Populations</span>
+        <h3 style="font-size:17px; font-weight:700; color:#fff; margin-top:4px;">Special Clinical Situations &amp; Contraindications</h3>
+      </div>
+      <button type="button" class="btn btn-sm modal-close" data-close="modal-safety">✕ Close</button>
+    </div>
+
+    <div style="display:flex; flex-direction:column; gap:10px; margin-top:12px; font-size:12px;">
+      <div class="subcard" style="background:rgba(244,63,94,0.12); border-color:rgba(244,63,94,0.42);">
+        <div class="row-between mb-2">
+          <strong style="color:#fecdd3; font-size:13px;">1. Pregnancy, Planned Conception &amp; Lactation</strong>
+          <span class="pill-tag pill-rose">Class 3: Harm</span>
+        </div>
+        <p style="color:#f1f5f9;">Discontinue statins, ezetimibe, bempedoic acid, and PCSK9-directed therapies <strong>1–2 months before planned conception</strong>, during pregnancy, and while breastfeeding. In severe FH requiring lipid lowering during pregnancy, non-absorbed bile acid sequestrants (colesevelam) or lipoprotein apheresis may be used.</p>
+      </div>
+
+      <div class="subcard" style="border-left:3px solid #f59e0b;">
+        <strong style="color:#fcd34d; font-size:13px;">2. Statin-Associated Muscle Symptoms (SAMS) Protocol</strong>
+        <p style="color:#cbd5e1; margin-top:4px;">Evaluate CK, TSH, and vitamin D if severe myalgias or weakness develop. After 2–4 week washout, rechallenge with a lower dose, alternate-day rosuvastatin/atorvastatin, or pitavastatin. Combine moderate-intensity statin + ezetimibe 10 mg (RACING) or transition to bempedoic acid 180 mg + ezetimibe 10 mg FDC (CLEAR Outcomes) if completely statin-intolerant.</p>
+      </div>
+
+      <div class="subcard" style="border-left:3px solid #22d3ee;">
+        <strong style="color:#67e8f9; font-size:13px;">3. CKD Stage ≥3, HIV &amp; Cardio-Oncology</strong>
+        <p style="color:#cbd5e1; margin-top:4px;"><strong>CKD (Non-Dialysis):</strong> Initiate moderate-intensity statin ± ezetimibe (SHARP); prefer atorvastatin (no renal dose cap). Do not initiate statins de novo in hemodialysis unless already taking.<br><strong>HIV (Age ≥40y):</strong> Pitavastatin 4 mg daily reduces MACE by 35% without antiretroviral CYP3A4 interactions (REPRIEVE).<br><strong>Cardio-Oncology:</strong> Baseline lipid &amp; ASCVD risk assessment prior to cardiotoxic or endocrine cancer therapies; manage dyslipidemia per standard 2026 risk tiers.</p>
+      </div>
+
+      <div class="subcard" style="border-left:3px solid #c084fc;">
+        <strong style="color:#e9d5ff; font-size:13px;">4. Older Adults (&gt;75 Years)</strong>
+        <p style="color:#cbd5e1; margin-top:4px;">Continue established statin therapy if well tolerated. In primary prevention &gt;75y, consider initiating moderate-intensity statin after shared decision-making factoring in frailty, polypharmacy, life expectancy, and CAC score.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- =========================================================================
+     MODAL 3: 1-CLICK EHR NOTE & PRESCRIPTION GENERATOR
+========================================================================== -->
+<div id="modal-ehr" class="modal-backdrop" role="dialog" aria-modal="true">
+  <div class="modal-card narrow">
+    <div class="row-between" style="padding-bottom:12px; border-bottom:1px solid rgba(148,163,184,0.2);">
+      <div>
+        <span class="pill-tag pill-emerald">EMR-Ready Clinical Documentation</span>
+        <h3 style="font-size:17px; font-weight:700; color:#fff; margin-top:4px;">2026 ACC/AHA Assessment, Prescription &amp; Follow-Up Plan</h3>
+      </div>
+      <button type="button" class="btn btn-sm modal-close" data-close="modal-ehr">✕ Close</button>
+    </div>
+    <textarea id="ehr-textarea" class="code-box mt-3" rows="15"></textarea>
+    <div class="row-between mt-3">
+      <span id="ehr-copy-toast" style="font-size:12px; font-weight:700; color:#6ee7b7;"></span>
+      <div style="display:flex; gap:8px;">
+        <button type="button" class="btn modal-close" data-close="modal-ehr">Close</button>
+        <button type="button" id="btn-copy-ehr" class="btn btn-primary">📋 Copy Note to Clipboard</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- =========================================================================
+     MODAL 4: PRINTABLE / COPYABLE PATIENT HANDOUT
+========================================================================== -->
+<div id="modal-handout" class="modal-backdrop" role="dialog" aria-modal="true">
+  <div class="modal-card narrow">
+    <div class="row-between" style="padding-bottom:12px; border-bottom:1px solid rgba(148,163,184,0.2);">
+      <div>
+        <span class="pill-tag pill-purple">Patient Shared Decision-Making Handout</span>
+        <h3 style="font-size:17px; font-weight:700; color:#fff; margin-top:4px;">Your Take-Home Heart &amp; Cholesterol Protection Summary</h3>
+      </div>
+      <button type="button" class="btn btn-sm modal-close" data-close="modal-handout">✕ Close</button>
+    </div>
+    <textarea id="handout-textarea" class="code-box mt-3" rows="15"></textarea>
+    <div class="row-between mt-3">
+      <span id="handout-copy-toast" style="font-size:12px; font-weight:700; color:#6ee7b7;"></span>
+      <div style="display:flex; gap:8px;">
+        <button type="button" id="btn-print-handout" class="btn">🖨️ Print Handout</button>
+        <button type="button" id="btn-copy-handout" class="btn btn-primary">📋 Copy Patient Plan</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  'use strict';
+
+  // =========================================================================
+  // 1. PHARMACOLOGY DATABASE & 2026 ENHANCERS
+  // =========================================================================
+  const STATINS = {
+    none:      { name: 'None', pct: 0, tier: 'None', pearl: 'No statin selected. Appropriate for verified statin intolerance (use Bempedoic Acid + Ezetimibe FDC) or CAC = 0 without high-risk caveats.' },
+    rosuva_5:  { name: 'Rosuvastatin 5 mg PO daily', pct: 0.38, tier: 'Moderate', pearl: 'Initial dose for East Asian ancestry, severe CKD (eGFR <30; max 10 mg), or SAMS rechallenge. Titrate to 10–20 mg after 4–12 wks if needed.' },
+    rosuva_10: { name: 'Rosuvastatin 10 mg PO daily', pct: 0.45, tier: 'Moderate', pearl: 'Standard moderate-intensity initial dose. Max dose: 40 mg/day. Pairing 10 mg + Ezetimibe 10 mg matches high-intensity statin with fewer side effects (RACING).' },
+    rosuva_20: { name: 'Rosuvastatin 20 mg PO daily', pct: 0.52, tier: 'High', pearl: 'Initial high-intensity dose (≥50% LDL-C ↓). Max dose: 40 mg/day. Cap at 10 mg if eGFR <30 mL/min.' },
+    rosuva_40: { name: 'Rosuvastatin 40 mg PO daily', pct: 0.55, tier: 'High', pearl: 'MAXIMUM APPROVED DOSE (40 mg/day). Adding Ezetimibe 10 mg yields ~3× greater incremental LDL-C drop than titrating 20 → 40 mg.' },
+    atorva_10: { name: 'Atorvastatin 10 mg PO daily', pct: 0.37, tier: 'Moderate', pearl: 'Low/moderate initial dose. Max dose: 80 mg/day. No renal dose adjustment required.' },
+    atorva_20: { name: 'Atorvastatin 20 mg PO daily', pct: 0.43, tier: 'Moderate', pearl: 'Standard moderate-intensity initial dose. Escalate to 40–80 mg or add Ezetimibe 10 mg at 4–12 weeks.' },
+    atorva_40: { name: 'Atorvastatin 40 mg PO daily', pct: 0.48, tier: 'High', pearl: 'Initial high-intensity dose when >45% LDL-C lowering is required. Max dose: 80 mg/day.' },
+    atorva_80: { name: 'Atorvastatin 80 mg PO daily', pct: 0.52, tier: 'High', pearl: 'MAXIMUM APPROVED DOSE (80 mg/day). Preferred high-intensity statin in severe CKD/ESRD. Max 20 mg with strong CYP3A4 inhibitors.' },
+    pitava_1:  { name: 'Pitavastatin 1 mg PO daily', pct: 0.31, tier: 'Moderate', pearl: 'Initial dose in moderate/severe CKD (eGFR 15–59; max 2 mg). Minimal CYP3A4 metabolism.' },
+    pitava_2:  { name: 'Pitavastatin 2 mg PO daily', pct: 0.38, tier: 'Moderate', pearl: 'Standard initial dose; titrate to 4 mg after 4 wks. Preferred in HIV on ART (REPRIEVE) & patients with prior SAMS.' },
+    pitava_4:  { name: 'Pitavastatin 4 mg PO daily', pct: 0.42, tier: 'Moderate', pearl: 'MAXIMUM APPROVED DOSE (4 mg/day). Glucose-neutral profile; minimal drug-drug interactions.' },
+    prava_40:  { name: 'Pravastatin 40 mg PO daily', pct: 0.32, tier: 'Moderate', pearl: 'Initial hydrophilic statin dose; minimal CYP interactions. Max dose: 80 mg/day.' },
+    prava_80:  { name: 'Pravastatin 80 mg PO daily', pct: 0.37, tier: 'Moderate', pearl: 'MAXIMUM APPROVED DOSE (80 mg/day). Useful option when CYP3A4 inhibitors preclude atorvastatin.' }
+  };
+
+  const ORALS = {
+    none:            { name: 'None', pct: 0, pearl: 'Consider Ezetimibe 10 mg if LDL-C remains above goal on statin (adds ~22% vs ~6% from statin doubling).' },
+    ezetimibe_10:    { name: 'Ezetimibe 10 mg PO daily', pct: 0.22, pearl: 'Initial = Max dose (10 mg/day). Blocks intestinal NPC1L1; adds ~20–25% LDL-C ↓ on top of statin (IMPROVE-IT, RACING).' },
+    bempedoic_180:   { name: 'Bempedoic Acid 180 mg PO daily', pct: 0.20, pearl: 'Initial = Max dose (180 mg/day). Hepatic ACL inhibitor (no muscle toxicity; CLEAR Outcomes). Monitor uric acid/gout.' },
+    nexlizet_180_10: { name: 'Bempedoic Acid 180 mg / Ezetimibe 10 mg FDC PO daily', pct: 0.38, pearl: 'Fixed-dose combination (180/10 mg daily): lowers LDL-C by ~38% without a statin—ideal cornerstone for statin-intolerant patients.' }
+  };
+
+  const PCSK9S = {
+    none:           { name: 'None', pct: 0, pearl: 'Reserve for Very High-Risk ASCVD, HeFH, or high-risk DM not at LDL-C goal (<55 or <70 mg/dL) despite maximally tolerated statin + ezetimibe.' },
+    evolocumab_140: { name: 'Evolocumab 140 mg SC every 2 weeks', pct: 0.58, pearl: 'Standard initial & maintenance dose (140 mg SC q2wk). Proven MACE reduction in ASCVD (FOURIER) & high-risk DM (VESALIUS-CV).' },
+    evolocumab_420: { name: 'Evolocumab 420 mg SC once monthly', pct: 0.56, pearl: 'Alternative once-monthly dosing (420 mg SC qMonth). Also reduces Lp(a) by ~20–25%.' },
+    alirocumab_75:  { name: 'Alirocumab 75 mg SC every 2 weeks', pct: 0.48, pearl: 'Initial dose (75 mg SC q2wk). Escalate to 150 mg SC q2wk after 4–8 weeks if LDL-C goal is not yet reached (ODYSSEY OUTCOMES).' },
+    alirocumab_150: { name: 'Alirocumab 150 mg SC every 2 weeks', pct: 0.58, pearl: 'MAXIMUM ESCALATED DOSE (150 mg SC q2wk) for patients requiring >50% add-on LDL-C lowering.' },
+    alirocumab_300: { name: 'Alirocumab 300 mg SC every 4 weeks', pct: 0.52, pearl: 'Alternative monthly regimen (300 mg SC q4wk); adjust to 150 mg q2wk if needed at 4–8 weeks.' },
+    inclisiran_284: { name: 'Inclisiran 284 mg SC (Day 1, Day 90, then q6mo)', pct: 0.50, pearl: 'HCP-administered siRNA: 284 mg SC initially, repeated at 3 months, then every 6 months. PCSK9 mAbs preferred when outcome-proven therapy is prioritized.' }
+  };
+
+  const ENHANCERS_2026 = [
+    { id: 'famHx',      label: 'Premature ASCVD FamHx (<55M/<65F)' },
+    { id: 'southAsian', label: 'South Asian / Filipino Ancestry (2026)' },
+    { id: 'prs',        label: 'High Polygenic Risk Score (2026)' },
+    { id: 'inflam',     label: 'Chronic Inflammatory (SLE/RA/Psoriasis)' },
+    { id: 'hscrp',      label: 'hsCRP ≥2 mg/L (×2 occasions)' },
+    { id: 'ckm',        label: 'CKM Syndrome (2026)' },
+    { id: 'repro',      label: 'Preeclampsia / Premature Menopause (2026)' }
+  ];
+
+  // =========================================================================
+  // 2. APPLICATION STATE
+  // =========================================================================
+  const state = {
+    pathway: 'primary',
+    counselingMode: false,
+    age: 42,
+    sex: 'male',
+    eastAsian: false,
+    preventRisk: 4.1,
+    ascvdVeryHigh: true,
+    dmHighRisk: true,
+    ckdOrHiv: 'ckd',
+    smoking: false,
+    ldl: 146,
+    nonHdl: 176,
+    tg: 150,
+    lpa: 165,
+    cac: 0,
+    cac75: false,
+    enhancers: new Set(['famHx']),
+    lifestyle: true,
+    statin: 'rosuva_10',
+    oral: 'none',
+    pcsk9: 'none',
+    tgDrug: 'none',
+    optimal: { statin: 'rosuva_10', oral: 'none', pcsk9: 'none', tgDrug: 'none' },
+    results: {},
+    // 3D Camera & Timeline Animation State
+    cam: { yaw: 0.42, pitch: 0.24, zoom: 1.0, autoOrbit: true },
+    timeline: { playing: true, simAge: 42, dir: 1 }
+  };
+
+  function $(id) { return document.getElementById(id); }
+
+  // =========================================================================
+  // 3. PRESETS & PATHWAYS
+  // =========================================================================
+  function loadPreset(key) {
+    document.querySelectorAll('.preset-btn').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.preset === key);
+    });
+
+    state.enhancers.clear();
+    state.smoking = false;
+    state.cac75 = false;
+
+    if (key === 'borderline_lpa') {
+      state.pathway = 'primary'; state.age = 42; state.sex = 'male'; state.preventRisk = 4.1;
+      state.ldl = 146; state.nonHdl = 176; state.tg = 150; state.lpa = 165; state.cac = 0;
+      state.enhancers.add('famHx');
+    } else if (key === 'vhr_ascvd') {
+      state.pathway = 'ascvd'; state.age = 58; state.sex = 'male'; state.ascvdVeryHigh = true;
+      state.ldl = 128; state.nonHdl = 160; state.tg = 175; state.lpa = 95; state.cac = 420;
+      state.enhancers.add('ckm');
+    } else if (key === 'hefh') {
+      state.pathway = 'severe'; state.age = 34; state.sex = 'female';
+      state.ldl = 215; state.nonHdl = 245; state.tg = 120; state.lpa = 140; state.cac = 0;
+      state.enhancers.add('famHx');
+    } else if (key === 'dm_high') {
+      state.pathway = 'diabetes'; state.age = 52; state.sex = 'male'; state.dmHighRisk = true;
+      state.ldl = 134; state.nonHdl = 172; state.tg = 210; state.lpa = 65; state.cac = 135;
+      state.enhancers.add('ckm');
+    } else if (key === 'statin_intol') {
+      state.pathway = 'primary'; state.age = 61; state.sex = 'female'; state.preventRisk = 11.4;
+      state.ldl = 168; state.nonHdl = 202; state.tg = 165; state.lpa = 110; state.cac = 185;
+    } else if (key === 'cac0_caveat') {
+      state.pathway = 'primary'; state.age = 48; state.sex = 'male'; state.preventRisk = 4.8;
+      state.ldl = 158; state.nonHdl = 192; state.tg = 180; state.lpa = 90; state.cac = 0;
+      state.smoking = true; state.enhancers.add('famHx');
+    }
+
+    state.timeline.simAge = state.age;
+    syncDomFromState();
+    renderPathwayTabs();
+    renderPathwayContext();
+    recalculate();
+    applyOptimalRegimen(key === 'statin_intol');
+  }
+
+  function syncDomFromState() {
+    $('in-age').value = state.age;
+    $('in-ldl').value = state.ldl;
+    $('in-nonhdl').value = state.nonHdl;
+    $('in-tg').value = state.tg;
+    $('in-lpa').value = state.lpa;
+    $('in-cac').value = state.cac;
+    $('chk-cac75').checked = state.cac75;
+    $('chk-east-asian').checked = state.eastAsian;
+    $('btn-sex-male').classList.toggle('active', state.sex === 'male');
+    $('btn-sex-female').classList.toggle('active', state.sex === 'female');
+    renderEnhancers();
+  }
+
+  function renderPathwayTabs() {
+    const names = {
+      primary: 'Primary Prevention',
+      ascvd: 'Clinical ASCVD',
+      severe: 'Severe LDL ≥190 / HeFH',
+      diabetes: 'Diabetes Mellitus',
+      ckd_hiv: 'CKD ≥3 / HIV',
+      youth: 'Youth & Young Adults'
+    };
+    document.querySelectorAll('.pathway-tab').forEach(tab => {
+      tab.classList.toggle('active', tab.dataset.pathway === state.pathway);
+    });
+    $('pathway-badge').textContent = names[state.pathway] || 'Primary Prevention';
+  }
+
+  function renderPathwayContext() {
+    const box = $('pathway-context-box');
+    if (state.pathway === 'primary') {
+      box.innerHTML = `
+        <div class="row-between">
+          <label class="field-lbl" for="in-prevent">10-Yr PREVENT-ASCVD Risk</label>
+          <span id="disp-prevent" class="val-mono text-amber">${state.preventRisk.toFixed(1)}% (Borderline)</span>
+        </div>
+        <input type="range" id="in-prevent" min="0.5" max="30" step="0.1" value="${state.preventRisk}" />
+        <div class="row-between mt-2" style="padding-top:6px; border-top:1px solid rgba(148,163,184,0.14); font-size:11px;">
+          <label style="display:flex; align-items:center; gap:6px; cursor:pointer; color:#cbd5e1;">
+            <input type="checkbox" id="chk-smoking" ${state.smoking ? 'checked' : ''} style="accent-color:#f43f5e;" />
+            <span>Active Tobacco Smoking</span>
+          </label>
+          <span style="font-family:var(--font-mono); font-size:10px; color:#94a3b8;">30-Yr Horizon Active</span>
+        </div>`;
+      $('in-prevent').addEventListener('input', recalculate);
+      $('chk-smoking').addEventListener('change', recalculate);
+    } else if (state.pathway === 'ascvd') {
+      box.innerHTML = `
+        <div class="grid-2">
+          <button type="button" id="btn-ascvd-std" style="padding:8px; border-radius:9px; text-align:left; font-size:11px; border:1px solid ${!state.ascvdVeryHigh ? '#22d3ee' : 'rgba(148,163,184,0.2)'}; background:${!state.ascvdVeryHigh ? 'rgba(34,211,238,0.18)' : '#050914'}; color:#fff;">
+            <strong>Standard ASCVD</strong><br><span style="color:#94a3b8;">Goal LDL-C &lt;70 mg/dL</span>
+          </button>
+          <button type="button" id="btn-ascvd-vhr" style="padding:8px; border-radius:9px; text-align:left; font-size:11px; border:1px solid ${state.ascvdVeryHigh ? '#f43f5e' : 'rgba(148,163,184,0.2)'}; background:${state.ascvdVeryHigh ? 'rgba(244,63,94,0.2)' : '#050914'}; color:#fff;">
+            <strong>Very High-Risk ASCVD</strong><br><span style="color:#fda4af;">Goal LDL-C &lt;55 mg/dL</span>
+          </button>
+        </div>`;
+      $('btn-ascvd-std').addEventListener('click', () => { state.ascvdVeryHigh = false; renderPathwayContext(); recalculate(); applyOptimalRegimen(); });
+      $('btn-ascvd-vhr').addEventListener('click', () => { state.ascvdVeryHigh = true; renderPathwayContext(); recalculate(); applyOptimalRegimen(); });
+    } else if (state.pathway === 'severe') {
+      box.innerHTML = `<div style="font-size:11px; color:#fcd34d;"><strong>Severe Hypercholesterolemia / HeFH (LDL-C ≥190):</strong> Class 1 maximally tolerated high-intensity statin ± ezetimibe/PCSK9i without risk calculation. Cascade screen 1st-degree relatives.</div>`;
+    } else if (state.pathway === 'diabetes') {
+      box.innerHTML = `
+        <div class="grid-2">
+          <button type="button" id="btn-dm-std" style="padding:8px; border-radius:9px; text-align:left; font-size:11px; border:1px solid ${!state.dmHighRisk ? '#22d3ee' : 'rgba(148,163,184,0.2)'}; background:${!state.dmHighRisk ? 'rgba(34,211,238,0.18)' : '#050914'}; color:#fff;">
+            <strong>Standard DM (20–75y)</strong><br><span style="color:#94a3b8;">Mod Statin (&lt;100 mg/dL)</span>
+          </button>
+          <button type="button" id="btn-dm-high" style="padding:8px; border-radius:9px; text-align:left; font-size:11px; border:1px solid ${state.dmHighRisk ? '#f59e0b' : 'rgba(148,163,184,0.2)'}; background:${state.dmHighRisk ? 'rgba(245,158,11,0.2)' : '#050914'}; color:#fff;">
+            <strong>High-Risk DM (VESALIUS)</strong><br><span style="color:#fcd34d;">High Statin (&lt;70 mg/dL)</span>
+          </button>
+        </div>`;
+      $('btn-dm-std').addEventListener('click', () => { state.dmHighRisk = false; renderPathwayContext(); recalculate(); applyOptimalRegimen(); });
+      $('btn-dm-high').addEventListener('click', () => { state.dmHighRisk = true; renderPathwayContext(); recalculate(); applyOptimalRegimen(); });
+    } else if (state.pathway === 'ckd_hiv') {
+      box.innerHTML = `
+        <div class="grid-2">
+          <button type="button" id="btn-ckd" style="padding:8px; border-radius:9px; font-size:11.5px; font-weight:600; border:1px solid ${state.ckdOrHiv === 'ckd' ? '#c084fc' : 'rgba(148,163,184,0.2)'}; background:${state.ckdOrHiv === 'ckd' ? 'rgba(192,132,252,0.2)' : '#050914'}; color:#fff;">CKD Stage ≥3 (SHARP)</button>
+          <button type="button" id="btn-hiv" style="padding:8px; border-radius:9px; font-size:11.5px; font-weight:600; border:1px solid ${state.ckdOrHiv === 'hiv' ? '#c084fc' : 'rgba(148,163,184,0.2)'}; background:${state.ckdOrHiv === 'hiv' ? 'rgba(192,132,252,0.2)' : '#050914'}; color:#fff;">HIV ≥40y (REPRIEVE)</button>
+        </div>`;
+      $('btn-ckd').addEventListener('click', () => { state.ckdOrHiv = 'ckd'; renderPathwayContext(); recalculate(); applyOptimalRegimen(); });
+      $('btn-hiv').addEventListener('click', () => { state.ckdOrHiv = 'hiv'; renderPathwayContext(); recalculate(); applyOptimalRegimen(); });
+    } else {
+      box.innerHTML = `<div style="font-size:11px; color:#6ee7b7;"><strong>Young Adults (&lt;30y):</strong> PREVENT not validated &lt;30y (use PDAY lifetime framework). Screen at ages 9–11y &amp; 19y; initiate statin if FH, LDL-C ≥190, or LDL-C ≥160 + ≥2 enhancers.</div>`;
+    }
+  }
+
+  function renderEnhancers() {
+    const wrap = $('enhancer-list');
+    wrap.innerHTML = ENHANCERS_2026.map(e => {
+      const on = state.enhancers.has(e.id);
+      return `<button type="button" class="enh-pill ${on ? 'active' : ''}" data-enh="${e.id}">${on ? '✓ ' : '+ '}${e.label}</button>`;
+    }).join('');
+    wrap.querySelectorAll('.enh-pill').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = btn.dataset.enh;
+        if (state.enhancers.has(id)) state.enhancers.delete(id);
+        else state.enhancers.add(id);
+        renderEnhancers();
+        recalculate();
+      });
+    });
+  }
+
+  function applyOptimalRegimen(forceStatinIntolerant = false) {
+    if (forceStatinIntolerant) {
+      $('chk-lifestyle').checked = true;
+      $('sel-statin').value = 'none';
+      $('sel-oral').value = 'nexlizet_180_10';
+      $('sel-pcsk9').value = state.ldl > 185 ? 'evolocumab_140' : 'none';
+      $('sel-tg').value = (state.tg >= 135 && state.tg <= 499 && state.cac >= 100) ? 'ipe_2g' : 'none';
+      recalculate();
+      return;
+    }
+    const opt = state.optimal;
+    $('chk-lifestyle').checked = true;
+    $('sel-statin').value = opt.statin;
+    $('sel-oral').value = opt.oral;
+    $('sel-pcsk9').value = opt.pcsk9;
+    $('sel-tg').value = opt.tgDrug;
+    recalculate();
+  }
+
+  // =========================================================================
+  // 4. CORE CLINICAL DECISION ENGINE & ESCALATION ADVISOR
+  // =========================================================================
+  function recalculate() {
+    state.age = parseInt($('in-age').value, 10);
+    state.eastAsian = $('chk-east-asian').checked;
+    state.ldl = parseInt($('in-ldl').value, 10);
+    state.nonHdl = parseInt($('in-nonhdl').value, 10);
+    state.tg = parseInt($('in-tg').value, 10);
+    state.lpa = parseInt($('in-lpa').value, 10);
+    state.cac = parseInt($('in-cac').value, 10);
+    state.cac75 = $('chk-cac75').checked;
+    state.lifestyle = $('chk-lifestyle').checked;
+    state.statin = $('sel-statin').value;
+    state.oral = $('sel-oral').value;
+    state.pcsk9 = $('sel-pcsk9').value;
+    state.tgDrug = $('sel-tg').value;
+
+    if ($('in-prevent')) state.preventRisk = parseFloat($('in-prevent').value);
+    if ($('chk-smoking')) state.smoking = $('chk-smoking').checked;
+
+    $('disp-age').textContent = `${state.age} yrs`;
+    $('disp-ldl').textContent = `${state.ldl} mg/dL`;
+    $('disp-nonhdl').textContent = `${state.nonHdl} mg/dL`;
+    $('disp-tg').textContent = `${state.tg} mg/dL`;
+    $('disp-lpa').textContent = `${state.lpa} nmol/L`;
+    $('disp-cac').textContent = `${state.cac} AU`;
+
+    if ($('disp-prevent')) {
+      const tier = state.preventRisk < 3 ? 'Low <3%'
+        : state.preventRisk < 5 ? 'Borderline 3–<5%'
+        : state.preventRisk < 20 ? 'Intermediate 5–19.9%'
+        : 'High ≥20%';
+      $('disp-prevent').textContent = `${state.preventRisk.toFixed(1)}% (${tier})`;
+    }
+
+    // Lp(a) 6x atherogenicity & risk multiplier banner
+    const lpaBar = $('lpa-multiplier-bar');
+    if (state.lpa >= 430) {
+      lpaBar.style.borderColor = 'rgba(244,63,94,0.6)';
+      lpaBar.style.color = '#fda4af';
+      lpaBar.innerHTML = `<strong>🚨 Extreme Lp(a) ≥430 nmol/L:</strong> ~6× more atherogenic than LDL; <strong>≥4× baseline ASCVD risk</strong>. Cascade screen 1st-degree relatives.`;
+    } else if (state.lpa >= 125) {
+      lpaBar.style.borderColor = 'rgba(245,158,11,0.5)';
+      lpaBar.style.color = '#fcd34d';
+      lpaBar.innerHTML = `<strong>⚠️ Elevated Lp(a) ≥125 nmol/L:</strong> ~6× per-particle atherogenicity; <strong>~1.4× baseline risk</strong>. Reclassifies borderline risk upward.`;
+    } else {
+      lpaBar.style.borderColor = 'rgba(148,163,184,0.2)';
+      lpaBar.style.color = '#94a3b8';
+      lpaBar.innerHTML = `<strong>Universal Lp(a) Screen (&lt;125 nmol/L):</strong> Normal baseline Lp(a) burden.`;
+    }
+
+    // Enhancer count
+    let enhCount = state.enhancers.size;
+    if (state.lpa >= 125) enhCount++;
+    if (state.ldl >= 160 && state.ldl <= 189) enhCount++;
+    if (state.tg >= 150) enhCount++;
+    $('disp-enhancer-count').textContent = `${enhCount} Active`;
+
+    const enhAlert = $('enhancer-alert');
+    if (enhCount >= 3) {
+      enhAlert.classList.remove('hidden');
+      enhAlert.textContent = `▲ ≥3 Risk Enhancers present: reliably identifies elevated lifetime/intermediate risk regardless of age or calculator.`;
+    } else {
+      enhAlert.classList.add('hidden');
+    }
+
+    // CAC = 0 Caveat & Table 3 Guidance
+    const cacBox = $('cac-guidance-box');
+    const zeroCaveat = state.pathway === 'diabetes' || state.pathway === 'severe' || state.smoking || state.ldl > 190 || state.enhancers.has('famHx');
+    const youngForCac = (state.sex === 'male' && state.age < 40) || (state.sex === 'female' && state.age < 50);
+
+    if (state.cac === 0) {
+      if (zeroCaveat) {
+        cacBox.style.background = 'rgba(244,63,94,0.16)';
+        cacBox.style.border = '1px solid rgba(244,63,94,0.45)';
+        cacBox.style.color = '#fecdd3';
+        cacBox.innerHTML = `<strong>🚨 CAC = 0 Caveat:</strong> Does NOT derisk diabetes, active smoking, FH, LDL &gt;190, or premature family history (high noncalcified plaque burden). Consider CCTA if plaque detection alters LDL goal.`;
+      } else if (youngForCac) {
+        cacBox.style.background = 'rgba(245,158,11,0.15)';
+        cacBox.style.border = '1px solid rgba(245,158,11,0.4)';
+        cacBox.style.color = '#fcd34d';
+        cacBox.innerHTML = `<strong>⚠️ Young Adult Caveat (${state.sex === 'male' ? 'Men <40y' : 'Women <50y'}):</strong> Noncalcified plaque precedes calcification; CAC = 0 is a poor discriminator.`;
+      } else {
+        cacBox.style.background = 'rgba(16,185,129,0.14)';
+        cacBox.style.border = '1px solid rgba(16,185,129,0.4)';
+        cacBox.style.color = '#a7f3d0';
+        cacBox.innerHTML = `<strong>✓ Class 2a (CAC = 0 AU):</strong> Low 2–3 yr risk. Reasonable to defer statin and repeat CAC in <strong>3–7 years</strong> if no high-risk caveats.`;
+      }
+    } else {
+      cacBox.style.background = 'rgba(34,211,238,0.14)';
+      cacBox.style.border = '1px solid rgba(34,211,238,0.42)';
+      cacBox.style.color = '#a5f3fc';
+      cacBox.innerHTML = state.cac >= 300
+        ? `<strong>Class 1 (CAC ≥300 AU):</strong> Severe plaque → Target ≥50% ↓ &amp; LDL-C &lt;55 / Non-HDL-C &lt;85 mg/dL.`
+        : (state.cac >= 100 || state.cac75)
+        ? `<strong>Class 1 (CAC 100–299 or ≥75th %ile):</strong> Target ≥50% ↓ &amp; LDL-C &lt;70 / Non-HDL-C &lt;100 mg/dL.`
+        : `<strong>Class 2a (CAC 1–99 AU):</strong> Target ≥30%–49% ↓ &amp; LDL-C &lt;100 / Non-HDL-C &lt;130 mg/dL.`;
+    }
+
+    // Numeric Goals & Optimal Regimen Recommendation
+    let goalLdl = 100;
+    let reqPct = 30;
+    let optStatin = state.eastAsian ? 'rosuva_5' : 'rosuva_10';
+    let optOral = 'none';
+    let optPcsk9 = 'none';
+    let optTg = 'none';
+
+    if (state.pathway === 'ascvd') {
+      goalLdl = state.ascvdVeryHigh ? 55 : 70;
+      reqPct = 50;
+      optStatin = state.eastAsian ? 'atorva_40' : 'rosuva_20';
+      if (state.ldl * 0.43 > goalLdl) optOral = 'ezetimibe_10';
+      if (state.ldl * 0.43 * 0.78 > goalLdl) optPcsk9 = 'evolocumab_140';
+    } else if (state.pathway === 'severe' || state.ldl >= 190) {
+      goalLdl = (state.cac > 0 || enhCount >= 1) ? 70 : 100;
+      reqPct = 50;
+      optStatin = state.eastAsian ? 'atorva_80' : 'rosuva_40';
+      if (state.ldl * 0.40 > goalLdl) optOral = 'ezetimibe_10';
+      if (state.ldl * 0.40 * 0.78 > goalLdl) optPcsk9 = 'evolocumab_140';
+    } else if (state.pathway === 'diabetes') {
+      goalLdl = (state.dmHighRisk || state.cac >= 100 || enhCount >= 2) ? 70 : 100;
+      reqPct = goalLdl === 70 ? 50 : 30;
+      optStatin = goalLdl === 70 ? (state.eastAsian ? 'atorva_40' : 'rosuva_20') : (state.eastAsian ? 'rosuva_5' : 'rosuva_10');
+      if (goalLdl === 70 && state.ldl * 0.43 > 70) optOral = 'ezetimibe_10';
+    } else if (state.pathway === 'ckd_hiv') {
+      goalLdl = state.cac >= 100 ? 70 : 100;
+      reqPct = goalLdl === 70 ? 50 : 30;
+      optStatin = state.ckdOrHiv === 'hiv' ? 'pitava_4' : 'atorva_20';
+      if (state.ckdOrHiv === 'ckd' && state.ldl * 0.51 > goalLdl) optOral = 'ezetimibe_10';
+    } else if (state.pathway === 'youth') {
+      goalLdl = 100; reqPct = 30;
+      optStatin = (state.ldl >= 160 && (enhCount >= 2 || state.lpa >= 125)) ? (state.eastAsian ? 'rosuva_5' : 'rosuva_10') : 'none';
+    } else {
+      if (state.cac >= 300) {
+        goalLdl = 55; reqPct = 50; optStatin = state.eastAsian ? 'atorva_40' : 'rosuva_20';
+        if (state.ldl * 0.43 > 55) optOral = 'ezetimibe_10';
+        if (state.ldl * 0.43 * 0.78 > 55) optPcsk9 = 'evolocumab_140';
+      } else if ((state.cac >= 100 && state.cac <= 299) || (state.cac >= 1 && state.cac75)) {
+        goalLdl = 70; reqPct = 50; optStatin = state.eastAsian ? 'atorva_40' : 'rosuva_20';
+        if (state.ldl * 0.43 > 70) optOral = 'ezetimibe_10';
+      } else if (state.cac >= 1) {
+        goalLdl = 100; reqPct = 30; optStatin = state.eastAsian ? 'rosuva_5' : 'rosuva_10';
+      } else if (state.preventRisk >= 20) {
+        goalLdl = 70; reqPct = 50; optStatin = state.eastAsian ? 'atorva_40' : 'rosuva_20';
+        if (state.ldl * 0.43 > 70) optOral = 'ezetimibe_10';
+      } else if (state.preventRisk >= 5 || (state.preventRisk >= 3 && (enhCount >= 1 || state.lpa >= 125)) || enhCount >= 3 || state.lpa >= 250) {
+        goalLdl = 100; reqPct = 30;
+        optStatin = (state.enhancers.has('hscrp') && state.preventRisk >= 3 && state.preventRisk < 5)
+          ? (state.eastAsian ? 'atorva_40' : 'rosuva_20')
+          : (state.eastAsian ? 'rosuva_5' : 'rosuva_10');
+        if (state.ldl * 0.50 > 100) optOral = 'ezetimibe_10';
+      } else {
+        optStatin = 'none';
+      }
+    }
+
+    if (state.tg >= 500) optTg = 'fenofibrate_145';
+    else if (state.tg >= 135 && (state.pathway === 'ascvd' || state.pathway === 'diabetes' || state.cac >= 100)) optTg = 'ipe_2g';
+
+    state.optimal = { statin: optStatin, oral: optOral, pcsk9: optPcsk9, tgDrug: optTg };
+    const goalNonHdl = goalLdl + 30;
+
+    // Update Drug Pearls
+    const sObj = STATINS[state.statin];
+    const oObj = ORALS[state.oral];
+    const pObj = PCSK9S[state.pcsk9];
+
+    $('statin-tier-badge').textContent = `${sObj.tier} (-${Math.round(sObj.pct * 100)}%)`;
+    $('pearl-statin').textContent = sObj.pearl;
+    $('pearl-oral').textContent = oObj.pearl;
+    $('pearl-pcsk9').textContent = pObj.pearl;
+
+    $('tg-pill-status').textContent = `TG ${state.tg} mg/dL`;
+    if (state.tg >= 500) {
+      $('pearl-tg').innerHTML = `<span class="text-rose"><strong>TG ≥500 mg/dL:</strong></span> Start Fenofibrate 145 mg daily (48 mg if eGFR 30–59) + very-low-fat diet to prevent acute pancreatitis.`;
+    } else if (state.tg >= 135) {
+      $('pearl-tg').innerHTML = `<span class="text-amber"><strong>TG 135–499 mg/dL:</strong></span> If ASCVD or DM + ≥2 risk factors on statin, Icosapent Ethyl 2 g PO BID reduces MACE by 25% (REDUCE-IT).`;
+    } else {
+      $('pearl-tg').textContent = 'Normal triglycerides (<135 mg/dL): No TG-specific drug therapy indicated.';
+    }
+
+    // Calculate Achieved Lipids & CTT Risk Reduction
+    let rem = 1.0;
+    if (state.lifestyle) rem *= 0.90;
+    rem *= (1 - sObj.pct);
+    rem *= (1 - oObj.pct);
+    rem *= (1 - pObj.pct);
+
+    const achLdl = Math.max(15, Math.round(state.ldl * rem));
+    const achNonHdl = Math.max(25, Math.round(state.nonHdl * (1 - (1 - rem) * 0.92)));
+    const pctRed = Math.round((1 - rem) * 100);
+    const absRed = Math.max(0, state.ldl - achLdl);
+    const rrr = Math.min(75, Math.round((1 - Math.pow(0.75, absRed / 38)) * 100));
+
+    $('kpi-ldl-val').innerHTML = `${achLdl} <span style="font-size:11px; font-weight:400; color:#94a3b8;">mg/dL</span>`;
+    $('kpi-ldl-goal').textContent = `Goal <${goalLdl}`;
+    $('kpi-nonhdl-val').innerHTML = `${achNonHdl} <span style="font-size:11px; font-weight:400; color:#94a3b8;">mg/dL</span>`;
+    $('kpi-nonhdl-goal').textContent = `Goal <${goalNonHdl}`;
+    $('kpi-pct-val').textContent = pctRed > 0 ? `-${pctRed}%` : '0%';
+    $('kpi-pct-req').textContent = `Req: ≥${reqPct}%`;
+    $('kpi-rrr-val').textContent = `${rrr}% RRR`;
+
+    const atLdl = achLdl <= goalLdl;
+    const atNonHdl = achNonHdl <= goalNonHdl;
+    const allMet = atLdl && atNonHdl;
+
+    $('kpi-ldl-sub').textContent = atLdl ? '✓ Target achieved' : `▲ +${achLdl - goalLdl} mg/dL above goal`;
+    $('kpi-ldl-sub').className = `kpi-sub ${atLdl ? 'text-emerald' : 'text-amber'}`;
+    $('kpi-nonhdl-sub').textContent = atNonHdl ? '✓ Target achieved' : `▲ +${achNonHdl - goalNonHdl} mg/dL above goal`;
+    $('kpi-nonhdl-sub').className = `kpi-sub ${atNonHdl ? 'text-emerald' : 'text-amber'}`;
+
+    const pill = $('goal-status-pill');
+    const adv = $('advisor-box');
+    if (allMet) {
+      pill.textContent = '✓ AT GOAL';
+      pill.className = 'pill-tag pill-emerald';
+      adv.style.background = 'rgba(16,185,129,0.12)';
+      adv.style.borderColor = 'rgba(16,185,129,0.38)';
+      adv.style.color = '#d1fae5';
+      adv.innerHTML = `<strong>✓ Dual Lipid Goals Achieved (LDL-C ${achLdl} &lt;${goalLdl} &amp; Non-HDL-C ${achNonHdl} &lt;${goalNonHdl} mg/dL):</strong> Maintain current regimen, reinforce adherence, and recheck lipid panel in <strong>4–12 weeks</strong> (then q3–12 months).`;
+    } else {
+      pill.textContent = '▲ ESCALATE';
+      pill.className = 'pill-tag pill-amber';
+      adv.style.background = 'rgba(245,158,11,0.14)';
+      adv.style.borderColor = 'rgba(245,158,11,0.45)';
+      adv.style.color = '#fef3c7';
+
+      let step = '';
+      if (state.statin === 'none' && state.oral === 'none') {
+        step = `Initiate <strong>${STATINS[optStatin]?.name || 'Rosuvastatin 10 mg PO daily'}</strong> (or <strong>Bempedoic Acid 180 mg / Ezetimibe 10 mg FDC</strong> if statin-intolerant).`;
+      } else if (state.oral === 'none') {
+        const nextLdl = Math.round(achLdl * 0.78);
+        step = `Add <strong>Ezetimibe 10 mg PO daily</strong> (+22% ↓ → projected LDL-C <strong>~${nextLdl} mg/dL</strong>) rather than doubling statin alone (Rule of 6%).`;
+      } else if (state.pcsk9 === 'none') {
+        const nextLdl = Math.round(achLdl * 0.42);
+        step = `Add <strong>Evolocumab 140 mg SC q2wk</strong> or <strong>Alirocumab 75–150 mg SC q2wk</strong> (+50–58% ↓ → projected LDL-C <strong>~${nextLdl} mg/dL</strong>).`;
+      } else {
+        step = `Verify strict adherence; if on Alirocumab 75 mg, escalate to <strong>150 mg SC q2wk</strong>.`;
+      }
+      adv.innerHTML = `<strong>▲ Escalation Next-Step Advisor:</strong> Current regimen leaves LDL-C at <strong>${achLdl} mg/dL</strong> (Goal &lt;${goalLdl}) and Non-HDL-C at <strong>${achNonHdl} mg/dL</strong> (Goal &lt;${goalNonHdl}). <strong>Next Step:</strong> ${step}`;
+    }
+
+    state.results = { achLdl, achNonHdl, goalLdl, goalNonHdl, pctRed, rrr, allMet };
+    if (state.counselingMode) updateCounselingCards();
+    drawBurdenChart();
+  }
+
+  // =========================================================================
+  // 5. PATIENT COUNSELING VIEW (SHARED DECISION-MAKING)
+  // =========================================================================
+  function toggleCounselingMode(forceState) {
+    state.counselingMode = typeof forceState === 'boolean' ? forceState : !state.counselingMode;
+    const btn = $('btn-counseling');
+    const sdm = $('sdm-section');
+    const step1 = $('step1-col');
+    const step2 = $('step2-col');
+    const step3 = $('step3-col');
+    const vp = $('artery-viewport');
+
+    if (state.counselingMode) {
+      btn.classList.add('btn-indigo-active');
+      $('counseling-btn-text').textContent = 'Exit Patient View';
+      sdm.classList.remove('hidden');
+      step1.classList.add('hidden');
+      step2.classList.replace('col-4', 'col-5');
+      step3.classList.replace('col-4', 'col-7');
+      vp.style.height = '365px';
+      updateCounselingCards();
+      sdm.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    } else {
+      btn.classList.remove('btn-indigo-active');
+      $('counseling-btn-text').textContent = 'Patient Counseling View';
+      sdm.classList.add('hidden');
+      step1.classList.remove('hidden');
+      step2.classList.replace('col-5', 'col-4');
+      step3.classList.replace('col-7', 'col-4');
+      vp.style.height = '310px';
+    }
+    resizeCanvases();
+  }
+
+  function updateCounselingCards() {
+    const r = state.results;
+    const mgYears = Math.max(600, Math.round(Math.max(10, state.age - 10) * state.ldl));
+    $('sdm-mg-years').textContent = `${mgYears.toLocaleString()} mg-yrs`;
+
+    let story = `Over your <strong>${state.age} years</strong>, circulating LDL ("bad") cholesterol at <strong>${state.ldl} mg/dL</strong> gradually enters artery walls—like slow wear inside pipes. `;
+    if (state.lpa >= 125) {
+      story += `Your blood test also shows elevated <strong>Lp(a) (${state.lpa} nmol/L)</strong>, an inherited particle ~6× stickier than standard LDL, making early LDL lowering extra protective. `;
+    }
+    if (state.cac > 0) {
+      story += `Your heart scan shows a <strong>calcium score of ${state.cac} AU</strong>, confirming early plaque buildup that we can actively shrink and seal today.`;
+    } else {
+      story += `Lowering cholesterol early keeps your artery walls smooth and prevents plaque from building up over the next 10–30 years.`;
+    }
+    $('sdm-story-text').innerHTML = story;
+
+    $('sdm-rrr-pill').textContent = r.rrr > 0 ? `-${r.rrr}% Heart Risk` : 'Baseline Risk';
+    $('sdm-ldl-start').textContent = `${state.ldl} mg/dL`;
+    $('sdm-ldl-proj').textContent = `${r.achLdl} mg/dL`;
+    $('sdm-goal-val').textContent = r.goalLdl;
+
+    const maxScale = Math.max(220, state.ldl);
+    $('sdm-bar-start').style.width = `${Math.min(100, Math.round((state.ldl / maxScale) * 100))}%`;
+    $('sdm-bar-proj').style.width = `${Math.min(100, Math.round((r.achLdl / maxScale) * 100))}%`;
+
+    $('sdm-protection-text').innerHTML = r.rrr > 0
+      ? `<strong>No Treatment vs. Your Plan (10–30 Yr Horizon):</strong> Without treatment, plaque continues accumulating silently. With your chosen plan, LDL drops from <strong>${state.ldl} → ${r.achLdl} mg/dL</strong>, cutting heart attack &amp; stroke risk by roughly <strong>${r.rrr}%</strong>.`
+      : `Select lifestyle habits and medication on the left—or click <strong>Auto-Recommend Regimen</strong>—to see your exact LDL drop and long-term protection.`;
+
+    const items = [];
+    if (state.lifestyle) items.push(`<div><strong>🥗 Daily Habits:</strong> Vegetables, fruits, whole grains, nuts, olive oil, and ≥150 min/wk brisk walking.</div>`);
+    if (state.statin !== 'none') items.push(`<div><strong>💊 Primary Pill — ${STATINS[state.statin].name}:</strong> Clears LDL from your blood and seals soft plaque under a protective cap.</div>`);
+    if (state.oral !== 'none') items.push(`<div><strong>💊 Partner Pill — ${ORALS[state.oral].name}:</strong> Blocks cholesterol absorption/production for strong extra lowering without high-dose statin side effects.</div>`);
+    if (state.pcsk9 !== 'none') items.push(`<div><strong>💉 Targeted Injection — ${PCSK9S[state.pcsk9].name}:</strong> Unlocks liver receptors to rapidly clear extra LDL particles.</div>`);
+    if (state.tgDrug === 'ipe_2g') items.push(`<div><strong>🐟 Purified EPA — Icosapent Ethyl 2 g BID with meals:</strong> Calms artery inflammation.</div>`);
+    if (!items.length) items.push(`<div>No medications selected yet—use the panel on the left to build your personalized plan.</div>`);
+    $('sdm-actions-list').innerHTML = items.join('');
+
+    $('sdm-safety-note').innerHTML = `<strong>✓ Follow-Up &amp; Reassurance:</strong> Over 90% of patients tolerate modern lipid therapy smoothly. Let us know if you notice new muscle aches; we will recheck labs in <strong>4–12 weeks</strong>.`;
+  }
+
+  // =========================================================================
+  // 6. NATIVE HIGH-DPI 3D CORONARY ARTERY & SMART PLAQUE ACCUMULATION ENGINE
+  // =========================================================================
+  const arteryCanvas = $('artery-canvas');
+  const arteryCtx = arteryCanvas.getContext('2d');
+  let isDragging = false;
+  let lastPtr = { x: 0, y: 0 };
+
+  // Pre-generate 3D flowing particles inside the lumen
+  const flowParticles = Array.from({ length: 85 }, (_, i) => {
+    const type = i < 45 ? 'ldl' : i < 65 ? 'lpa' : 'apob';
+    return {
+      type,
+      x: (Math.random() - 0.5) * 240,
+      angle: Math.random() * Math.PI * 2,
+      radFrac: 0.12 + Math.random() * 0.72,
+      speed: 0.65 + Math.random() * 0.95,
+      phase: Math.random() * Math.PI * 2
+    };
+  });
+
+  function project3D(x, y, z, cx, cy, scale) {
+    // Rotate around Y (yaw) and X (pitch)
+    const cosY = Math.cos(state.cam.yaw), sinY = Math.sin(state.cam.yaw);
+    const cosX = Math.cos(state.cam.pitch), sinX = Math.sin(state.cam.pitch);
+
+    const x1 = x * cosY - z * sinY;
+    const z1 = x * sinY + z * cosY;
+    const y2 = y * cosX - z1 * sinX;
+    const z2 = y * sinX + z1 * cosX;
+
+    const fov = 460;
+    const persp = fov / (fov + z2 + 120);
+    return {
+      sx: cx + x1 * persp * scale,
+      sy: cy + y2 * persp * scale,
+      z: z2,
+      persp
+    };
+  }
+
+  function render3DArtery() {
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const w = arteryCanvas.clientWidth;
+    const h = arteryCanvas.clientHeight;
+    if (w === 0 || h === 0) return;
+
+    if (arteryCanvas.width !== Math.floor(w * dpr) || arteryCanvas.height !== Math.floor(h * dpr)) {
+      arteryCanvas.width = Math.floor(w * dpr);
+      arteryCanvas.height = Math.floor(h * dpr);
+    }
+
+    const ctx = arteryCtx;
+    ctx.save();
+    ctx.scale(dpr, dpr);
+    ctx.clearRect(0, 0, w, h);
+
+    // Subtle diagnostic grid backdrop
+    ctx.strokeStyle = 'rgba(34, 211, 238, 0.05)';
+    ctx.lineWidth = 1;
+    for (let gx = 0; gx < w; gx += 28) { ctx.beginPath(); ctx.moveTo(gx, 0); ctx.lineTo(gx, h); ctx.stroke(); }
+    for (let gy = 0; gy < h; gy += 28) { ctx.beginPath(); ctx.moveTo(0, gy); ctx.lineTo(w, gy); ctx.stroke(); }
+
+    // Advance timeline animation smoothly
+    if (state.timeline.playing) {
+      state.timeline.simAge += 0.045 * state.timeline.dir;
+      if (state.timeline.simAge >= 75) state.timeline.dir = -1;
+      if (state.timeline.simAge <= Math.max(20, state.age - 15)) state.timeline.dir = 1;
+    } else {
+      state.timeline.simAge = state.age;
+    }
+
+    if (state.cam.autoOrbit && !isDragging) {
+      state.cam.yaw += 0.0045;
+    }
+
+    const simAge = Math.round(state.timeline.simAge);
+    $('hud-timeline-label').textContent = `Age ${simAge}y Trajectory`;
+
+    const r = state.results;
+    const achLdl = r.achLdl || state.ldl;
+    const pctRed = r.pctRed || 0;
+
+    // Smart Plaque Accumulation & LLT Regression Math
+    const untreatedExposure = ((simAge - 12) * state.ldl) / 8500;
+    const baselineDisease = (state.pathway === 'ascvd' ? 0.25 : 0) + (state.pathway === 'diabetes' ? 0.14 : 0) + Math.min(0.32, state.cac / 1200);
+    const rawPlaque = Math.min(0.85, Math.max(0.06, untreatedExposure * 0.65 + baselineDisease));
+
+    // LLT shrinks soft lipid core and builds dense protective fibrous/calcified cap
+    const regressionFactor = 1 - (pctRed / 100) * 0.58;
+    const lipidCoreHeight = Math.max(6, rawPlaque * 46 * regressionFactor);
+    const hasCap = state.statin !== 'none' || state.oral !== 'none' || state.pcsk9 !== 'none' || state.cac > 0;
+    const capThickness = hasCap ? Math.min(18, 4 + (pctRed / 100) * 10 + Math.min(8, state.cac / 140)) : 1.5;
+
+    const pav = Math.min(78, Math.max(8, Math.round(((lipidCoreHeight + capThickness) / 72) * 68)));
+    const patency = 100 - pav;
+
+    $('hud-pav-text').textContent = `${pav}% PAV • ${hasCap && pctRed >= 25 ? 'Cap Stabilized' : 'Soft Lipid Core'}`;
+    $('hud-core-bar').style.width = `${Math.min(68, Math.round((lipidCoreHeight / 55) * 65))}%`;
+    $('hud-cap-bar').style.width = `${Math.min(35, Math.round((capThickness / 20) * 32))}%`;
+    $('hud-patency').textContent = `Lumen Patency: ${patency}%`;
+
+    const cx = w * 0.5;
+    const cy = h * 0.48;
+    const scale = Math.min(w, h) / 285 * state.cam.zoom;
+
+    const halfLen = 125;
+    const outerR = 66;
+    const innerR = 56;
+    const slices = 22;
+
+    // 1. Back half of outer arterial wall rings
+    for (let s = 0; s <= slices; s++) {
+      const t = s / slices;
+      const x = -halfLen + t * halfLen * 2;
+      const pts = [];
+      for (let a = 0; a <= 32; a++) {
+        const theta = (a / 32) * Math.PI * 2;
+        pts.push(project3D(x, Math.cos(theta) * outerR, Math.sin(theta) * outerR, cx, cy, scale));
+      }
+      ctx.beginPath();
+      pts.forEach((p, idx) => idx === 0 ? ctx.moveTo(p.sx, p.sy) : ctx.lineTo(p.sx, p.sy));
+      ctx.strokeStyle = (s === 0 || s === slices) ? 'rgba(244, 63, 94, 0.72)' : 'rgba(190, 18, 60, 0.16)';
+      ctx.lineWidth = (s === 0 || s === slices) ? 2.4 : 1;
+      ctx.stroke();
+    }
+
+    // 2. Longitudinal vessel wall rails (3D cylindrical cutaway cage)
+    for (let a = 0; a < 16; a++) {
+      const theta = (a / 16) * Math.PI * 2;
+      // Leave top-front cutaway window open so internal plaque & particles shine clearly
+      if (Math.sin(theta) > 0.35 && Math.cos(theta) < 0.25) continue;
+      const pStart = project3D(-halfLen, Math.cos(theta) * innerR, Math.sin(theta) * innerR, cx, cy, scale);
+      const pEnd = project3D(halfLen, Math.cos(theta) * innerR, Math.sin(theta) * innerR, cx, cy, scale);
+      ctx.beginPath();
+      ctx.moveTo(pStart.sx, pStart.sy);
+      ctx.lineTo(pEnd.sx, pEnd.sy);
+      ctx.strokeStyle = 'rgba(251, 113, 133, 0.22)';
+      ctx.lineWidth = 1.1;
+      ctx.stroke();
+    }
+
+    // 3. 3D Atheroma Plaque Mound along inferior intimal wall (Necrotic Lipid Core + Fibrous Cap)
+    const plaqueSlices = 24;
+    for (let i = 0; i < plaqueSlices; i++) {
+      const u = (i / (plaqueSlices - 1)) * 2 - 1; // -1 to 1
+      const profile = Math.cos(u * Math.PI * 0.5);
+      if (profile <= 0.02) continue;
+      const x = u * 88;
+      const coreH = lipidCoreHeight * Math.pow(profile, 1.35);
+      const capH = coreH + capThickness * Math.pow(profile, 1.2);
+      const widthZ = 38 * Math.pow(profile, 0.85);
+
+      // Draw Lipid Core arc (Amber-Gold)
+      ctx.beginPath();
+      for (let k = -8; k <= 8; k++) {
+        const frac = k / 8;
+        const z = frac * widthZ;
+        const y = innerR - coreH * (1 - frac * frac * 0.65);
+        const pt = project3D(x, y, z, cx, cy, scale);
+        if (k === -8) ctx.moveTo(pt.sx, pt.sy);
+        else ctx.lineTo(pt.sx, pt.sy);
+      }
+      ctx.strokeStyle = 'rgba(251, 191, 36, 0.72)';
+      ctx.lineWidth = 3.2 * scale;
+      ctx.stroke();
+
+      // Draw Stabilized Fibrous / Calcified Cap over the lipid core (Crisp Cyan-White)
+      if (hasCap) {
+        ctx.beginPath();
+        for (let k = -8; k <= 8; k++) {
+          const frac = k / 8;
+          const z = frac * (widthZ + 2);
+          const y = innerR - capH * (1 - frac * frac * 0.65);
+          const pt = project3D(x, y, z, cx, cy, scale);
+          if (k === -8) ctx.moveTo(pt.sx, pt.sy);
+          else ctx.lineTo(pt.sx, pt.sy);
+        }
+        ctx.strokeStyle = state.cac >= 100 ? 'rgba(248, 250, 252, 0.92)' : 'rgba(103, 232, 249, 0.85)';
+        ctx.lineWidth = 2.1 * scale;
+        ctx.stroke();
+      }
+    }
+
+    // 4. Circulating 3D-Shaded Lipoprotein Particles (LDL-C, Lp(a), ApoB Remnants)
+    const visibleLdl = Math.max(4, Math.round((achLdl / 220) * 45));
+    const visibleLpa = Math.max(2, Math.round((state.lpa / 450) * 20));
+    const visibleApob = Math.max(3, Math.round((state.tg / 450) * 20));
+
+    $('hud-cnt-ldl').textContent = visibleLdl;
+    $('hud-cnt-lpa').textContent = visibleLpa;
+    $('hud-cnt-apob').textContent = visibleApob;
+
+    let cLdl = 0, cLpa = 0, cApob = 0;
+    const renderList = [];
+
+    flowParticles.forEach(p => {
+      if (p.type === 'ldl') { cLdl++; if (cLdl > visibleLdl) return; }
+      else if (p.type === 'lpa') { cLpa++; if (cLpa > visibleLpa) return; }
+      else { cApob++; if (cApob > visibleApob) return; }
+
+      p.x += p.speed * (1 + (pav / 140)); // Faster velocity through narrowed lumen
+      if (p.x > halfLen) p.x = -halfLen;
+
+      // Deflect upward over the atheroma plaque mound
+      const plaqueBump = Math.max(0, 1 - Math.abs(p.x) / 88) * (lipidCoreHeight + capThickness) * 0.72;
+      const rEff = innerR * 0.76 * p.radFrac;
+      const y = Math.cos(p.angle) * rEff - plaqueBump * 0.65;
+      const z = Math.sin(p.angle) * rEff;
+
+      const proj = project3D(p.x, y, z, cx, cy, scale);
+      renderList.push({ ...proj, type: p.type });
+    });
+
+    // Depth-sort back-to-front
+    renderList.sort((a, b) => b.z - a.z);
+
+    renderList.forEach(pt => {
+      const baseRad = pt.type === 'lpa' ? (state.lpa >= 125 ? 4.8 : 3.8) : pt.type === 'ldl' ? 3.5 : 3.2;
+      const rad = Math.max(1.6, baseRad * pt.persp * scale);
+
+      const grad = ctx.createRadialGradient(pt.sx - rad * 0.3, pt.sy - rad * 0.3, rad * 0.1, pt.sx, pt.sy, rad);
+      if (pt.type === 'ldl') {
+        grad.addColorStop(0, '#fef08a');
+        grad.addColorStop(0.65, '#f59e0b');
+        grad.addColorStop(1, '#78350f');
+      } else if (pt.type === 'lpa') {
+        grad.addColorStop(0, '#fecdd3');
+        grad.addColorStop(0.6, '#f43f5e');
+        grad.addColorStop(1, '#881337');
+      } else {
+        grad.addColorStop(0, '#cffafe');
+        grad.addColorStop(0.6, '#06b6d4');
+        grad.addColorStop(1, '#164e63');
+      }
+
+      ctx.beginPath();
+      ctx.arc(pt.sx, pt.sy, rad, 0, Math.PI * 2);
+      ctx.fillStyle = grad;
+      ctx.fill();
+
+      // Lp(a) Kringle-IV tail ring indicator
+      if (pt.type === 'lpa' && state.lpa >= 125) {
+        ctx.strokeStyle = 'rgba(253, 164, 175, 0.75)';
+        ctx.lineWidth = 1;
+        ctx.stroke();
+      }
+    });
+
+    ctx.restore();
+    requestAnimationFrame(render3DArtery);
+  }
+
+  // =========================================================================
+  // 7. CUMULATIVE LDL-C EXPOSURE TRAJECTORY CHART (MG-YEARS)
+  // =========================================================================
+  function drawBurdenChart() {
+    const cvs = $('burden-canvas');
+    const ctx = cvs.getContext('2d');
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const w = cvs.clientWidth;
+    const h = cvs.clientHeight;
+    if (w === 0 || h === 0) return;
+
+    cvs.width = Math.floor(w * dpr);
+    cvs.height = Math.floor(h * dpr);
+    ctx.save();
+    ctx.scale(dpr, dpr);
+    ctx.clearRect(0, 0, w, h);
+
+    const pad = { l: 38, r: 14, t: 12, b: 22 };
+    const gw = w - pad.l - pad.r;
+    const gh = h - pad.t - pad.b;
+    const maxY = 12000;
+
+    // Threshold line at 5,000 mg-years
+    const threshY = pad.t + gh * (1 - 5000 / maxY);
+    ctx.strokeStyle = 'rgba(245, 158, 11, 0.45)';
+    ctx.setLineDash([4, 4]);
+    ctx.beginPath();
+    ctx.moveTo(pad.l, threshY);
+    ctx.lineTo(w - pad.r, threshY);
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    // Axes
+    ctx.strokeStyle = 'rgba(148, 163, 184, 0.25)';
+    ctx.beginPath();
+    ctx.moveTo(pad.l, pad.t);
+    ctx.lineTo(pad.l, pad.t + gh);
+    ctx.lineTo(w - pad.r, pad.t + gh);
+    ctx.stroke();
+
+    const startAge = 15;
+    const endAge = 75;
+    const achLdl = state.results.achLdl || state.ldl;
+
+    function plotLine(treated, color) {
+      ctx.beginPath();
+      for (let age = startAge; age <= endAge; age += 2) {
+        const fracX = (age - startAge) / (endAge - startAge);
+        const px = pad.l + fracX * gw;
+        let cum = 0;
+        if (!treated || age <= state.age) {
+          cum = (age - 10) * state.ldl;
+        } else {
+          cum = (state.age - 10) * state.ldl + (age - state.age) * achLdl;
+        }
+        const py = pad.t + gh * (1 - Math.min(maxY, cum) / maxY);
+        if (age === startAge) ctx.moveTo(px, py);
+        else ctx.lineTo(px, py);
+      }
+      ctx.strokeStyle = color;
+      ctx.lineWidth = 2.2;
+      ctx.stroke();
+    }
+
+    plotLine(false, '#f43f5e'); // Untreated trajectory
+    plotLine(true, '#10b981');  // Treated trajectory
+
+    // Current Age Marker
+    const curFrac = Math.min(1, Math.max(0, (state.age - startAge) / (endAge - startAge)));
+    const curX = pad.l + curFrac * gw;
+    ctx.strokeStyle = 'rgba(34, 211, 238, 0.6)';
+    ctx.beginPath(); ctx.moveTo(curX, pad.t); ctx.lineTo(curX, pad.t + gh); ctx.stroke();
+
+    // Labels
+    ctx.fillStyle = '#94a3b8';
+    ctx.font = '10px sans-serif';
+    ctx.fillText('15y', pad.l - 6, h - 6);
+    ctx.fillText(`${state.age}y`, curX - 8, h - 6);
+    ctx.fillText('75y', w - pad.r - 18, h - 6);
+    ctx.fillStyle = '#fda4af';
+    ctx.fillText('Untreated', pad.l + 6, pad.t + 11);
+    ctx.fillStyle = '#6ee7b7';
+    ctx.fillText('With Plan', pad.l + 66, pad.t + 11);
+
+    ctx.restore();
+  }
+
+  function resizeCanvases() {
+    drawBurdenChart();
+  }
+
+  // =========================================================================
+  // 8. MODALS, EHR NOTE & PATIENT HANDOUT GENERATORS
+  // =========================================================================
+  function openModal(id) {
+    $(id).classList.add('open');
+  }
+  function closeModal(id) {
+    $(id).classList.remove('open');
+  }
+
+  function buildEhrText() {
+    const r = state.results;
+    const rx = [];
+    if (state.statin !== 'none') rx.push(`- ${STATINS[state.statin].name} [Sig: Take 1 tablet by mouth once daily]`);
+    if (state.oral !== 'none') rx.push(`- ${ORALS[state.oral].name} [Sig: Take 1 tablet by mouth once daily]`);
+    if (state.pcsk9 !== 'none') rx.push(`- ${PCSK9S[state.pcsk9].name}`);
+    if (state.tgDrug === 'ipe_2g') rx.push(`- Icosapent Ethyl 2 g PO BID with meals (4 g/day)`);
+    if (state.tgDrug === 'fenofibrate_145') rx.push(`- Fenofibrate 145 mg PO daily (adjust to 48 mg if eGFR 30–59)`);
+
+    return `PREVENTIVE CARDIOLOGY & LIPIDOLOGY CLINICAL NOTE
+Guideline Reference: 2026 ACC/AHA/Multisociety Dyslipidemia Guideline & 2026 ACC Scientific Statement
+
+PATIENT & RISK ASSESSMENT:
+- Demographics: ${state.age}-year-old ${state.sex === 'male' ? 'Male' : 'Female'}${state.eastAsian ? ' (East Asian ancestry)' : ''}
+- Clinical Pathway: ${state.pathway.toUpperCase()}
+- Baseline Lipids: LDL-C ${state.ldl} mg/dL | Non-HDL-C ${state.nonHdl} mg/dL | Triglycerides ${state.tg} mg/dL
+- Universal Lp(a) Screen: ${state.lpa} nmol/L ${state.lpa >= 125 ? '[ELEVATED RISK ENHANCER — Cascade screen 1st-degree relatives]' : '[Normal]'}
+- Subclinical Imaging: CAC Agatston Score ${state.cac} AU ${state.cac75 ? '(≥75th percentile)' : ''}
+
+2026 ACC/AHA NUMERIC GOALS & PROJECTED EFFICACY:
+- LDL-C Goal: <${r.goalLdl} mg/dL (Projected on Regimen: ${r.achLdl} mg/dL)
+- Non-HDL-C Goal: <${r.goalNonHdl} mg/dL (Projected on Regimen: ${r.achNonHdl} mg/dL)
+- Expected Reduction: -${r.pctRed}% LDL-C (~${r.rrr}% CTT MACE relative risk reduction)
+
+THERAPEUTIC PLAN & PRESCRIPTIONS:
+${state.lifestyle ? "- AHA Life's Essential 8: Heart-healthy dietary pattern (<6% saturated fat) + ≥150 min/wk aerobic activity\n" : ""}${rx.length ? rx.join('\n') : '- Defer pharmacotherapy; continue intensive lifestyle modification'}
+
+MONITORING & SAFETY COUNSELING:
+- Lab Order: Repeat fasting/nonfasting lipid panel in 4–12 weeks to verify dual lipid goal attainment & adherence.
+- Safety: Reviewed symptom monitoring (myalgias/CK if symptomatic) and Class 3 Harm contraindication in pregnancy/lactation.`;
+  }
+
+  function buildHandoutText() {
+    const r = state.results;
+    const lines = [
+      `YOUR PERSONAL HEART & CHOLESTEROL PROTECTION PLAN`,
+      `Based on the 2026 ACC/AHA Heart Health Guidelines`,
+      `----------------------------------------------------------------------`,
+      `1. YOUR STARTING NUMBERS & PERSONAL GOAL:`,
+      `• Starting LDL ("Bad") Cholesterol: ${state.ldl} mg/dL`,
+      `• Your Personal LDL Target: Below ${r.goalLdl} mg/dL`,
+      state.lpa >= 125 ? `• Inherited Lipoprotein(a): ${state.lpa} nmol/L (Elevated — adult siblings/children should get a one-time Lp(a) blood test)` : null,
+      state.cac > 0 ? `• Coronary Calcium Score: ${state.cac} AU (Early plaque detected — treatment shrinks soft plaque and seals it safely)` : null,
+      ``,
+      `2. YOUR DAILY ACTION PLAN:`,
+      state.lifestyle ? `• Healthy Habits (Life's Essential 8): Focus on vegetables, fruits, whole grains, beans, nuts, and olive oil; aim for 150+ minutes of brisk movement each week.` : null,
+      state.statin !== 'none' ? `• ${STATINS[state.statin].name} — Lowers liver cholesterol production and stabilizes artery plaque.` : null,
+      state.oral !== 'none' ? `• ${ORALS[state.oral].name} — Adds extra cholesterol lowering with strong tolerability.` : null,
+      state.pcsk9 !== 'none' ? `• ${PCSK9S[state.pcsk9].name} — Helps your liver clear extra LDL particles.` : null,
+      state.tgDrug === 'ipe_2g' ? `• Icosapent Ethyl 2 g twice daily WITH MEALS — Protects arteries from triglyceride-related risk.` : null,
+      state.tgDrug === 'fenofibrate_145' ? `• Fenofibrate 145 mg once daily — Lowers high triglycerides.` : null,
+      ``,
+      `3. EXPECTED BENEFIT & NEXT LAB CHECK:`,
+      `• Projected LDL Cholesterol on Plan: ~${r.achLdl} mg/dL (-${r.pctRed}% reduction)`,
+      `• Estimated Heart Attack & Stroke Risk Reduction: ~${r.rrr}% over time`,
+      `• Next Blood Test: Repeat cholesterol panel in 4 to 12 weeks to confirm you have reached your target.`,
+      `• Questions: Contact our clinic before stopping any medication—we can always adjust doses if needed.`
+    ].filter(Boolean);
+    return lines.join('\n');
+  }
+
+  function copyTextarea(textareaId, toastId) {
+    const el = $(textareaId);
+    el.select();
+    el.setSelectionRange(0, 99999);
+    try {
+      document.execCommand('copy');
+      $(toastId).textContent = '✓ Copied to clipboard!';
+    } catch (e) {
+      $(toastId).textContent = 'Press Ctrl+C / Cmd+C to copy.';
+    }
+  }
+
+  // =========================================================================
+  // 9. WIRE ALL EVENT LISTENERS CLEANLY ON DOMContentLoaded
+  // =========================================================================
+  function bindEvents() {
+    // Topbar Utility Buttons
+    $('btn-counseling').addEventListener('click', () => toggleCounselingMode());
+    $('btn-exit-counseling').addEventListener('click', () => toggleCounselingMode(false));
+
+    $('btn-open-dosing').addEventListener('click', () => openModal('modal-dosing'));
+    $('btn-open-safety').addEventListener('click', () => openModal('modal-safety'));
+
+    $('btn-open-ehr').addEventListener('click', () => {
+      $('ehr-textarea').value = buildEhrText();
+      $('ehr-copy-toast').textContent = '';
+      openModal('modal-ehr');
+    });
+    $('btn-copy-ehr').addEventListener('click', () => copyTextarea('ehr-textarea', 'ehr-copy-toast'));
+
+    $('btn-open-handout').addEventListener('click', () => {
+      $('handout-textarea').value = buildHandoutText();
+      $('handout-copy-toast').textContent = '';
+      openModal('modal-handout');
+    });
+    $('btn-copy-handout').addEventListener('click', () => copyTextarea('handout-textarea', 'handout-copy-toast'));
+    $('btn-print-handout').addEventListener('click', () => window.print());
+
+    // Close Modal Buttons & Backdrop Clicks
+    document.querySelectorAll('.modal-close').forEach(btn => {
+      btn.addEventListener('click', () => closeModal(btn.dataset.close));
+    });
+    document.querySelectorAll('.modal-backdrop').forEach(backdrop => {
+      backdrop.addEventListener('click', e => {
+        if (e.target === backdrop) backdrop.classList.remove('open');
+      });
+    });
+
+    // Outpatient Presets
+    document.querySelectorAll('.preset-btn').forEach(btn => {
+      btn.addEventListener('click', () => loadPreset(btn.dataset.preset));
+    });
+
+    // 6 Pathway Tabs
+    document.querySelectorAll('.pathway-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        state.pathway = tab.dataset.pathway;
+        renderPathwayTabs();
+        renderPathwayContext();
+        recalculate();
+        applyOptimalRegimen();
+      });
+    });
+
+    // Step 1 Inputs
+    $('in-age').addEventListener('input', () => {
+      state.age = parseInt($('in-age').value, 10);
+      state.timeline.simAge = state.age;
+      recalculate();
+    });
+    $('btn-sex-male').addEventListener('click', () => {
+      state.sex = 'male';
+      $('btn-sex-male').classList.add('active');
+      $('btn-sex-female').classList.remove('active');
+      recalculate();
+    });
+    $('btn-sex-female').addEventListener('click', () => {
+      state.sex = 'female';
+      $('btn-sex-female').classList.add('active');
+      $('btn-sex-male').classList.remove('active');
+      recalculate();
+    });
+    $('chk-east-asian').addEventListener('change', recalculate);
+
+    $('in-ldl').addEventListener('input', () => {
+      const ldl = parseInt($('in-ldl').value, 10);
+      const tg = parseInt($('in-tg').value, 10);
+      $('in-nonhdl').value = Math.min(360, ldl + Math.round(tg / 5));
+      recalculate();
+    });
+    $('in-nonhdl').addEventListener('input', recalculate);
+    $('in-tg').addEventListener('input', () => {
+      const ldl = parseInt($('in-ldl').value, 10);
+      const tg = parseInt($('in-tg').value, 10);
+      $('in-nonhdl').value = Math.min(360, ldl + Math.round(tg / 5));
+      recalculate();
+    });
+    $('in-lpa').addEventListener('input', recalculate);
+    $('in-cac').addEventListener('input', recalculate);
+    $('chk-cac75').addEventListener('change', recalculate);
+
+    document.querySelectorAll('.cac-quick').forEach(btn => {
+      btn.addEventListener('click', () => {
+        $('in-cac').value = btn.dataset.cac;
+        recalculate();
+      });
+    });
+
+    // Step 2 Drug Dosing Controls
+    $('btn-auto-optimize').addEventListener('click', () => applyOptimalRegimen(false));
+    $('chk-lifestyle').addEventListener('change', recalculate);
+    $('sel-statin').addEventListener('change', recalculate);
+    $('sel-oral').addEventListener('change', recalculate);
+    $('sel-pcsk9').addEventListener('change', recalculate);
+    $('sel-tg').addEventListener('change', recalculate);
+
+    // Step 3 3D Camera & Timeline Controls
+    document.querySelectorAll('.cam-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const mode = btn.dataset.cam;
+        document.querySelectorAll('.cam-btn').forEach(b => {
+          b.style.background = '';
+          b.style.color = '';
+        });
+        btn.style.background = '#22d3ee';
+        btn.style.color = '#050914';
+
+        if (mode === 'lumen') { state.cam.yaw = 1.45; state.cam.pitch = 0.08; state.cam.zoom = 1.25; state.cam.autoOrbit = false; $('chk-auto-orbit').checked = false; }
+        else if (mode === 'plaque') { state.cam.yaw = 0.12; state.cam.pitch = 0.48; state.cam.zoom = 1.32; }
+        else if (mode === 'reset') { state.cam.yaw = 0.42; state.cam.pitch = 0.24; state.cam.zoom = 1.0; state.cam.autoOrbit = true; $('chk-auto-orbit').checked = true; }
+        else { state.cam.yaw = 0.42; state.cam.pitch = 0.24; state.cam.zoom = 1.0; }
+      });
+    });
+
+    $('btn-play-timeline').addEventListener('click', () => {
+      state.timeline.playing = !state.timeline.playing;
+      $('btn-play-timeline').textContent = state.timeline.playing ? '⏸ Pause' : '▶ Play';
+    });
+
+    $('chk-auto-orbit').addEventListener('change', () => {
+      state.cam.autoOrbit = $('chk-auto-orbit').checked;
+    });
+
+    // Pointer drag & wheel zoom on 3D canvas
+    arteryCanvas.addEventListener('pointerdown', e => {
+      isDragging = true;
+      lastPtr = { x: e.clientX, y: e.clientY };
+    });
+    window.addEventListener('pointerup', () => { isDragging = false; });
+    arteryCanvas.addEventListener('pointermove', e => {
+      if (!isDragging) return;
+      state.cam.yaw += (e.clientX - lastPtr.x) * 0.009;
+      state.cam.pitch = Math.max(-1.1, Math.min(1.1, state.cam.pitch + (e.clientY - lastPtr.y) * 0.009));
+      lastPtr = { x: e.clientX, y: e.clientY };
+    });
+    arteryCanvas.addEventListener('wheel', e => {
+      e.preventDefault();
+      state.cam.zoom = Math.max(0.65, Math.min(1.65, state.cam.zoom - e.deltaY * 0.0008));
+    }, { passive: false });
+
+    window.addEventListener('resize', resizeCanvases);
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    bindEvents();
+    loadPreset('borderline_lpa');
+    requestAnimationFrame(render3DArtery);
+  });
+})();
+</script>
+</body>
+</html>
